@@ -2,7 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import 'antd/dist/antd.css';
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import 'bootstrap-css-only/css/bootstrap-reboot.min.css';
+import 'bootstrap-css-only/css/bootstrap.min.css';
+import 'bootstrap-css-only/css/bootstrap-grid.min.css';
 
+import './assets/sass/style.sass';
 import 'App/index.css';
 import { App } from 'App/App';
 import reportWebVitals from 'App/reportWebVitals';
