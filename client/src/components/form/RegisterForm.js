@@ -1,7 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { MDBInput, MDBBtn } from 'mdbreact';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 import { auth } from 'App/firebase';
 
@@ -10,19 +9,25 @@ export const RegisterForm = () => {
 
   const handleSubmit = useCallback(async e => {
     e.preventDefault();
+    if (!email) {
+      toast.error('Email is required');
+      return false;
+    }
     const config = {
-      url: 'http://localhost:3000/register/complete',
+      url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
       handleCodeInApp: true,
     };
     try {
       await auth.sendSignInLinkToEmail(email, config);
     } catch (e) {
       console.error(e);
+      toast.error(e.message);
+      return false;
     }
 
     // save user email in local storage
     toast.success(`Email is send to ${email}. Click the link to complete your registration`);
-    window.localStorage.setItem('emailForSignIn', email);
+    window.localStorage.setItem('emailForRegistration', email);
     // clear state
     setEmail('');
     return false;
@@ -41,7 +46,7 @@ export const RegisterForm = () => {
         onChange={handleInputChange}
         autoFocus
       />
-      <MDBBtn className="button-raised" type="submit">Register / {email}</MDBBtn>
+      <MDBBtn className="btn btn-raised" type="submit">Register / {email}</MDBBtn>
     </form>
   );
 };
