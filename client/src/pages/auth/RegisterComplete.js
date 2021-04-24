@@ -10,7 +10,7 @@ export const RegisterComplete = () => (
       <MDBCol md="6" className="offset-md-3 p-5">
         <h4>Register Complete</h4>
         <ToastContainer />
-        <RegisterCompleteForm />
+        <RegisterCompleteForm history={history} />
       </MDBCol>
     </MDBRow>
   </MDBContainer>

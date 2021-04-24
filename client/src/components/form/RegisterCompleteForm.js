@@ -2,10 +2,12 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { MDBInput, MDBBtn } from 'mdbreact';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useHistory } from 'react-router-dom';
 
 import { auth } from 'App/firebase';
 
-export const RegisterCompleteForm = (/*{ history }*/) => {
+export const RegisterCompleteForm = () => {
+  const history = useHistory();
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ password2, setPassword2 ] = useState('');
@@ -46,7 +48,7 @@ export const RegisterCompleteForm = (/*{ history }*/) => {
         // redux store
         console.log('idTokenResult', idTokenResult);
         // redirect
-        //history.push('/');
+        history.push('/');
       } else {
         toast.error('Email validation error');
       }
