@@ -10,6 +10,9 @@
       ],
       "Pages/*": [
         "src/pages/*"
+      ],
+      "Reducers/*": [
+        "src/reducers/*"
       ]
     }
   }
