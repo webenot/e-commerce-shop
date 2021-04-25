@@ -2,11 +2,11 @@ import React, { useState, useCallback } from 'react';
 import { Menu } from 'antd';
 import { HomeOutlined, SettingOutlined, UserOutlined, UserAddOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-import firebase from 'firebase';
 import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import { LOGOUT } from 'Reducers/userReducer';
+import { auth } from 'App/firebase';
 
 const {
   SubMenu,
@@ -23,7 +23,7 @@ export const Header = () => {
   }, []);
 
   const handleLogout = useCallback(() => {
-    firebase.auth().signOut();
+    auth.signOut();
     history.push('/login');
     dispatch({
       type: LOGOUT,

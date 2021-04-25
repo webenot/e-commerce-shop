@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 
 import { auth } from 'App/firebase';
 import { LOGGED_IN_USER } from 'Reducers/userReducer';
+import { UserAddOutlined } from '@ant-design/icons';
 
 export const RegisterCompleteForm = () => {
   const [ email, setEmail ] = useState('');
@@ -97,7 +98,16 @@ export const RegisterCompleteForm = () => {
         onChange={handlePassword2InputChange}
         placeholder="Confirm your password"
       />
-      <MDBBtn className="btn btn-raised" type="submit">Complete Registration</MDBBtn>
+      <MDBBtn
+        disabled={!email || password.length < 6 || password2.length < 6 || password !== password2}
+        size="lg"
+        color="primary"
+        className="btn-rounded btn-block"
+        type="submit"
+      >
+        <UserAddOutlined />
+        <span>Complete Registration</span>
+      </MDBBtn>
     </form>
   );
 };

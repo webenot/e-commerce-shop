@@ -3,6 +3,7 @@ import { MDBInput, MDBBtn } from 'mdbreact';
 import { toast } from 'react-toastify';
 
 import { auth } from 'App/firebase';
+import { UserAddOutlined } from '@ant-design/icons';
 
 export const RegisterForm = () => {
   const [ email, setEmail ] = useState('');
@@ -46,7 +47,16 @@ export const RegisterForm = () => {
         onChange={handleInputChange}
         autoFocus
       />
-      <MDBBtn className="btn btn-raised" type="submit">Register / {email}</MDBBtn>
+      <MDBBtn
+        disabled={!email || email.indexOf('@') === -1 || email.indexOf('@') === email.length - 1}
+        color="primary"
+        size="lg"
+        className="btn-rounded btn-block"
+        type="submit"
+      >
+        <UserAddOutlined />
+        <span>Register / {email}</span>
+      </MDBBtn>
     </form>
   );
 };
