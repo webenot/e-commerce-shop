@@ -3,21 +3,23 @@ import { MDBInput, MDBBtn } from 'mdbreact';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { auth } from 'App/firebase';
+import { LOGGED_IN_USER } from 'Reducers/userReducer';
 
 export const RegisterCompleteForm = () => {
-  const history = useHistory();
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ password2, setPassword2 ] = useState('');
+  const history = useHistory();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const email = window.localStorage.getItem('emailForRegistration');
     if (email) {
       setEmail(email);
     }
-    console.log(process.env.REACT_APP_REGISTER_REDIRECT_URL);
   }, []);
 
   const handleSubmit = useCallback(async e => {
@@ -36,17 +38,22 @@ export const RegisterCompleteForm = () => {
     }
     try {
       const result = await auth.signInWithEmailLink(email, window.location.href);
-      console.log('result', result);
       if (result.user.emailVerified) {
         // remove user from the local storage
         window.localStorage.removeItem('emailForRegistration');
         // get user id token
         const user = auth.currentUser;
-        console.log('user', user);
         await user.updatePassword(password);
         const idTokenResult = await user.getIdTokenResult();
         // redux store
-        console.log('idTokenResult', idTokenResult);
+        dispatch({
+          type: LOGGED_IN_USER,
+          payload: {
+            name: user.displayName ? user.displayName : user.email,
+            email: user.email,
+            token: idTokenResult.token,
+          },
+        });
         // redirect
         history.push('/');
       } else {
