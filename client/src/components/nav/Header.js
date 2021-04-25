@@ -1,7 +1,12 @@
 import React, { useState, useCallback } from 'react';
 import { Menu } from 'antd';
-import { HomeOutlined, SettingOutlined, UserOutlined, UserAddOutlined } from '@ant-design/icons';
+import { HomeOutlined, SettingOutlined, UserOutlined, UserAddOutlined, LogoutOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import firebase from 'firebase';
+import { useDispatch } from 'react-redux';
+import { useHistory } from 'react-router-dom';
+
+import { LOGOUT } from 'Reducers/userReducer';
 
 const {
   SubMenu,
@@ -10,10 +15,21 @@ const {
 
 export const Header = () => {
   const [ current, setCurrent ] = useState('home');
+  const dispatch = useDispatch();
+  const history = useHistory();
 
   const handleClick = useCallback(e => {
     setCurrent(e.key);
-  });
+  }, []);
+
+  const handleLogout = useCallback(() => {
+    firebase.auth().signOut();
+    history.push('/login');
+    dispatch({
+      type: LOGOUT,
+      payload: null,
+    });
+  }, []);
 
   return (
     <header>
@@ -30,6 +46,7 @@ export const Header = () => {
         <SubMenu key="SubMenu" icon={<SettingOutlined />} title="Username">
           <Item key="setting:1">Option 1</Item>
           <Item key="setting:2">Option 2</Item>
+          <Item icon={<LogoutOutlined />} onClick={handleLogout}>Logout</Item>
         </SubMenu>
       </Menu>
     </header>
