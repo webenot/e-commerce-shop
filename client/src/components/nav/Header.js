@@ -21,10 +21,10 @@ export const Header = () => {
         <Item key="home" icon={<HomeOutlined />}>
           <Link to="/">Home</Link>
         </Item>
-        <Item key="register" icon={<UserAddOutlined />} className="float-end">
+        <Item key="register" icon={<UserAddOutlined />} className="float-right">
           <Link to="/register">Register</Link>
         </Item>
-        <Item key="login" icon={<UserOutlined />} className="float-end">
+        <Item key="login" icon={<UserOutlined />} className="float-right">
           <Link to="/login">Login</Link>
         </Item>
         <SubMenu key="SubMenu" icon={<SettingOutlined />} title="Username">
