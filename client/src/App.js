@@ -26,9 +26,10 @@ export const App = () => {
           dispatch({
             type: LOGGED_IN_USER,
             payload: {
-              name: user.displayName ? user.displayName : user.email,
+              name: user.displayName,
               email: user.email,
               token: idTokenResult.token,
+              image: user.photoURL,
             },
           });
         } catch (e) {
