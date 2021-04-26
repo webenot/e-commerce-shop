@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { Login } from 'Pages/auth/Login';
 import { Register } from 'Pages/auth/Register';
 import { RegisterComplete } from 'Pages/auth/RegisterComplete';
+import { ForgotPassword } from 'Pages/auth/ForgotPassword';
 import { Home } from 'Pages/Home';
 import { Header } from 'Components/nav/Header';
 import { auth } from 'App/firebase';
@@ -48,6 +49,7 @@ export const App = () => {
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/register/complete" component={RegisterComplete} />
+        <Route exact path="/forgot/password" component={ForgotPassword} />
       </Switch>
       <ToastContainer
         position="bottom-right"

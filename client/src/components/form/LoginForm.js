@@ -22,7 +22,6 @@ export const LoginForm = ({ setTitle }) => {
     e.preventDefault();
     try {
       const result = await auth.signInWithEmailAndPassword(email, password);
-      console.log({ result });
       if (result.user) {
         toast.success('Welcome');
         history.push('/dashboard');
