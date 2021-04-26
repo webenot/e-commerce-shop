@@ -1,19 +1,22 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { MDBInput, MDBBtn } from 'mdbreact';
 import { toast } from 'react-toastify';
 
 import { auth } from 'App/firebase';
 import { UserAddOutlined } from '@ant-design/icons';
+import { REGISTER_TITLE, REGISTER_TITLE_LOADING } from 'App/config';
 
-export const RegisterForm = () => {
+export const RegisterForm = ({ setTitle }) => {
   const [ email, setEmail ] = useState('');
+  const [ loading, setLoading ] = useState(false);
+
+  useEffect(() => {
+    setTitle(loading ? REGISTER_TITLE_LOADING : REGISTER_TITLE);
+  }, [ loading ]);
 
   const handleSubmit = useCallback(async e => {
+    setLoading(true);
     e.preventDefault();
-    if (!email) {
-      toast.error('Email is required');
-      return false;
-    }
     const config = {
       url: process.env.REACT_APP_REGISTER_REDIRECT_URL,
       handleCodeInApp: true,
@@ -23,6 +26,7 @@ export const RegisterForm = () => {
     } catch (e) {
       console.error(e);
       toast.error(e.message);
+      setLoading(false);
       return false;
     }
 
@@ -31,6 +35,7 @@ export const RegisterForm = () => {
     window.localStorage.setItem('emailForRegistration', email);
     // clear state
     setEmail('');
+    setLoading(false);
     return false;
   }, [ email ]);
 
@@ -41,6 +46,7 @@ export const RegisterForm = () => {
   return (
     <form onSubmit={handleSubmit}>
       <MDBInput
+        disabled={loading}
         label="Email"
         type="email"
         value={email}
@@ -48,9 +54,8 @@ export const RegisterForm = () => {
         autoFocus
       />
       <MDBBtn
-        disabled={!email || email.indexOf('@') === -1 || email.indexOf('@') === email.length - 1}
+        disabled={!email || email.indexOf('@') === -1 || email.indexOf('@') === email.length - 1 || loading}
         color="primary"
-        size="lg"
         className="btn-rounded btn-block"
         type="submit"
       >
