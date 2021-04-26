@@ -10,7 +10,7 @@ export const Register = ({ history }) => {
   const { user } = useSelector(state => state);
 
   useEffect(() => {
-    if (user) {
+    if (user && user.token) {
       history.push('/dashboard');
     }
   }, [ user ]);
