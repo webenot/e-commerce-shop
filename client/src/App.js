@@ -12,6 +12,7 @@ import { Home } from 'Pages/Home';
 import { Header } from 'Components/nav/Header';
 import { auth } from 'App/firebase';
 import { LOGGED_IN_USER } from 'Reducers/userReducer';
+import { currentUser } from 'Services/currentUser';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -24,15 +25,21 @@ export const App = () => {
       if (user) {
         try {
           const idTokenResult = await user.getIdTokenResult();
-          dispatch({
-            type: LOGGED_IN_USER,
-            payload: {
-              name: user.displayName,
-              email: user.email,
-              token: idTokenResult.token,
-              image: user.photoURL,
-            },
-          });
+          const response = await currentUser(idTokenResult.token);
+          console.log({ response });
+          if (response && response.data) {
+            dispatch({
+              type: LOGGED_IN_USER,
+              payload: {
+                name: response.data.name,
+                email: response.data.email,
+                token: idTokenResult.token,
+                picture: response.data.picture,
+                role: response.data.role,
+                _id: response.data._id,
+              },
+            });
+          }
         } catch (e) {
           console.error(e);
           toast.error(e.message);

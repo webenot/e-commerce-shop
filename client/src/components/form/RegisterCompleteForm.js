@@ -3,10 +3,13 @@ import { MDBInput, MDBBtn } from 'mdbreact';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useHistory } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 
 import { auth } from 'App/firebase';
 import { UserAddOutlined } from '@ant-design/icons';
 import { REGISTER_TITLE, REGISTER_COMPLETE_TITLE_LOADING } from 'App/config';
+import { createOrUpdateUser } from 'Services/createOrUpdateUser';
+import { LOGGED_IN_USER } from 'Reducers/userReducer';
 
 export const RegisterCompleteForm = ({ setTitle }) => {
   const [ email, setEmail ] = useState('');
@@ -14,6 +17,7 @@ export const RegisterCompleteForm = ({ setTitle }) => {
   const [ password2, setPassword2 ] = useState('');
   const [ loading, setLoading ] = useState(false);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const email = window.localStorage.getItem('emailForRegistration');
@@ -42,6 +46,24 @@ export const RegisterCompleteForm = ({ setTitle }) => {
         // get user id token
         const user = auth.currentUser;
         await user.updatePassword(password);
+        createOrUpdateUser(user.za)
+          .then(response => {
+            dispatch({
+              type: LOGGED_IN_USER,
+              payload: {
+                name: response.data.name,
+                email: response.data.email,
+                token: result.user.za,
+                picture: response.data.picture,
+                role: response.data.role,
+                _id: response.data._id,
+              },
+            });
+          })
+          .catch(error => {
+            console.error(error);
+            toast.error(error.message);
+          });
         // redirect
         history.push('/');
       } else {

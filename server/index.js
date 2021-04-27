@@ -4,8 +4,8 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-
-const authRoutes = require('routes/auth');
+const fs = require('fs');
+const path = require('path');
 
 const port = process.env.PORT || 8000;
 
@@ -30,7 +30,9 @@ app.use(bodyParser.json({ limit: '2mb' }));
 app.use(cors());
 
 // Routes middlewares
-app.use('/api/auth', authRoutes);
+fs.readdirSync(path.resolve('routes')).map(file => {
+  app.use('/api', require(`routes/${file}`));
+});
 
 app.listen(port, () => {
   console.log('Server is running on  port', port);

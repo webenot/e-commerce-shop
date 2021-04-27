@@ -1,40 +1,34 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { MDBInput, MDBBtn } from 'mdbreact';
-import { toast } from 'react-toastify';
 import { useHistory } from 'react-router-dom';
 import { GoogleOutlined, MailOutlined } from '@ant-design/icons';
+import { useDispatch } from 'react-redux';
 
-import { auth, googleAuthProvider } from 'App/firebase';
 import { LOGIN_TITLE, LOGIN_TITLE_LOADING } from 'App/config';
+import { authUser } from 'Services/authUser';
 
 export const LoginForm = ({ setTitle }) => {
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ loading, setLoading ] = useState(false);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setTitle(loading ? LOGIN_TITLE_LOADING : LOGIN_TITLE);
   }, [ loading ]);
 
-  const handleSubmit = useCallback(async e => {
-    setLoading(true);
+  const handleSubmit = useCallback(e => {
     e.preventDefault();
-    try {
-      const result = await auth.signInWithEmailAndPassword(email, password);
-      if (result.user) {
-        toast.success('Welcome');
-        history.push('/dashboard');
-      } else {
-        toast.error('Could not login with this email and password');
-        setLoading(false);
-      }
-    } catch (e) {
-      console.log(e);
-      toast.error(e.message);
-      setLoading(false);
-    }
-    return false;
+    authUser(
+      'email',
+      setLoading,
+      'Could not login with this email and password',
+      history,
+      dispatch,
+      email,
+      password,
+    );
   }, [ email, password ]);
 
   const handleEmailChange = useCallback(e => {
@@ -45,22 +39,14 @@ export const LoginForm = ({ setTitle }) => {
     setPassword(e.target.value);
   }, []);
 
-  const handleGoogleLogin = useCallback(async () => {
-    setLoading(true);
-    try {
-      const result = await auth.signInWithPopup(googleAuthProvider);
-      if (result.user) {
-        toast.success('Welcome');
-        history.push('/dashboard');
-      } else {
-        toast.error('Could not login with Google service');
-        setLoading(false);
-      }
-    } catch (e) {
-      console.error(e);
-      toast.error(e.message);
-      setLoading(false);
-    }
+  const handleGoogleLogin = useCallback(() => {
+    authUser(
+      'google',
+      setLoading,
+      'Could not login with Google service',
+      history,
+      dispatch,
+    );
   }, []);
 
   return (
@@ -85,6 +71,7 @@ export const LoginForm = ({ setTitle }) => {
         color="primary"
         className="btn-rounded btn-block"
         type="submit"
+        tabIndex="1"
       >
         <MailOutlined />
         <span>Login with Email/Password</span>
