@@ -3,6 +3,7 @@ import { toast } from 'react-toastify';
 import { auth, googleAuthProvider } from 'App/firebase';
 import { createOrUpdateUser } from 'Services/createOrUpdateUser';
 import { LOGGED_IN_USER } from 'Reducers/userReducer';
+import { roleBasedRedirect } from 'Services/roleBasedRedirect';
 
 export const authUser = async (strategy, setLoading, message, history, dispatch, ...args) => {
   setLoading(true);
@@ -33,7 +34,7 @@ export const authUser = async (strategy, setLoading, message, history, dispatch,
           },
         });
         toast.success('Welcome');
-        history.push('/dashboard');
+        roleBasedRedirect(response, history);
       } else {
         toast.error(message);
         setLoading(false);

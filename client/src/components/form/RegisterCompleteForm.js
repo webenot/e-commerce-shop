@@ -10,6 +10,7 @@ import { UserAddOutlined } from '@ant-design/icons';
 import { REGISTER_TITLE, REGISTER_COMPLETE_TITLE_LOADING } from 'App/config';
 import { createOrUpdateUser } from 'Services/createOrUpdateUser';
 import { LOGGED_IN_USER } from 'Reducers/userReducer';
+import { roleBasedRedirect } from 'Services/roleBasedRedirect';
 
 export const RegisterCompleteForm = ({ setTitle }) => {
   const [ email, setEmail ] = useState('');
@@ -59,13 +60,12 @@ export const RegisterCompleteForm = ({ setTitle }) => {
                 _id: response.data._id,
               },
             });
+            roleBasedRedirect(response, history);
           })
           .catch(error => {
             console.error(error);
             toast.error(error.message);
           });
-        // redirect
-        history.push('/');
       } else {
         toast.error('Email validation error');
         setLoading(false);

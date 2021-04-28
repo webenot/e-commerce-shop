@@ -26,7 +26,6 @@ export const App = () => {
         try {
           const idTokenResult = await user.getIdTokenResult();
           const response = await currentUser(idTokenResult.token);
-          console.log({ response });
           if (response && response.data) {
             dispatch({
               type: LOGGED_IN_USER,
