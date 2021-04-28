@@ -13,6 +13,9 @@
       ],
       "Reducers/*": [
         "src/reducers/*"
+      ],
+      "Services/*": [
+        "src/services/*"
       ]
     }
   }

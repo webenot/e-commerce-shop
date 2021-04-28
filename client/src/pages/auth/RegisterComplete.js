@@ -1,17 +1,14 @@
-import React from 'react';
-import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
-import { ToastContainer } from 'react-toastify';
+import React, { useState } from 'react';
 
 import { RegisterCompleteForm } from 'Components/form/RegisterCompleteForm';
+import { REGISTER_COMPLETE_TITLE } from 'App/config';
+import { AuthBaseTemplate } from 'Pages/auth';
 
-export const RegisterComplete = () => (
-  <MDBContainer>
-    <MDBRow>
-      <MDBCol md="6" className="offset-md-3 p-5">
-        <h4>Register Complete</h4>
-        <ToastContainer />
-        <RegisterCompleteForm />
-      </MDBCol>
-    </MDBRow>
-  </MDBContainer>
-);
+export const RegisterComplete = () => {
+  const [ title, setTitle ] = useState(REGISTER_COMPLETE_TITLE);
+  return (
+    <AuthBaseTemplate title={title}>
+      <RegisterCompleteForm setTitle={setTitle} />
+    </AuthBaseTemplate>
+  );
+};

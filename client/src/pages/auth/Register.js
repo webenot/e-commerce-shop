@@ -1,15 +1,14 @@
-import React from 'react';
-import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
+import React, {  useState } from 'react';
 
+import { REGISTER_TITLE } from 'App/config';
 import { RegisterForm } from 'Components/form/RegisterForm';
+import { AuthBaseTemplate } from 'Pages/auth/index';
 
-export const Register = () => (
-  <MDBContainer>
-    <MDBRow>
-      <MDBCol md="6" className="offset-md-3 p-5">
-        <h4>Register</h4>
-        <RegisterForm />
-      </MDBCol>
-    </MDBRow>
-  </MDBContainer>
-);
+export const Register = () => {
+  const [ title, setTitle ] = useState(REGISTER_TITLE);
+  return (
+    <AuthBaseTemplate title={title}>
+      <RegisterForm setTitle={setTitle} />
+    </AuthBaseTemplate>
+  );
+};

@@ -6,12 +6,17 @@ import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 
 import { auth } from 'App/firebase';
+import { UserAddOutlined } from '@ant-design/icons';
+import { REGISTER_TITLE, REGISTER_COMPLETE_TITLE_LOADING } from 'App/config';
+import { createOrUpdateUser } from 'Services/createOrUpdateUser';
 import { LOGGED_IN_USER } from 'Reducers/userReducer';
+import { roleBasedRedirect } from 'Services/roleBasedRedirect';
 
-export const RegisterCompleteForm = () => {
+export const RegisterCompleteForm = ({ setTitle }) => {
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ password2, setPassword2 ] = useState('');
+  const [ loading, setLoading ] = useState(false);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -22,18 +27,16 @@ export const RegisterCompleteForm = () => {
     }
   }, []);
 
+  useEffect(() => {
+    setTitle(loading ? REGISTER_COMPLETE_TITLE_LOADING : REGISTER_TITLE);
+  }, [ loading ]);
+
   const handleSubmit = useCallback(async e => {
+    setLoading(true);
     e.preventDefault();
-    if (!email || !password || !password2) {
-      toast.error('Email, password and password confirmation is required');
-      return false;
-    }
-    if (password.length < 6) {
-      toast.error('Password must be at least 6 characters long');
-      return false;
-    }
     if (password !== password2) {
       toast.error('Passwords not match');
+      setLoading(false);
       return false;
     }
     try {
@@ -44,24 +47,33 @@ export const RegisterCompleteForm = () => {
         // get user id token
         const user = auth.currentUser;
         await user.updatePassword(password);
-        const idTokenResult = await user.getIdTokenResult();
-        // redux store
-        dispatch({
-          type: LOGGED_IN_USER,
-          payload: {
-            name: user.displayName ? user.displayName : user.email,
-            email: user.email,
-            token: idTokenResult.token,
-          },
-        });
-        // redirect
-        history.push('/');
+        createOrUpdateUser(user.za)
+          .then(response => {
+            dispatch({
+              type: LOGGED_IN_USER,
+              payload: {
+                name: response.data.name,
+                email: response.data.email,
+                token: result.user.za,
+                picture: response.data.picture,
+                role: response.data.role,
+                _id: response.data._id,
+              },
+            });
+            roleBasedRedirect(response, history);
+          })
+          .catch(error => {
+            console.error(error);
+            toast.error(error.message);
+          });
       } else {
         toast.error('Email validation error');
+        setLoading(false);
       }
     } catch (e) {
       console.error(e);
       toast.error(e.message);
+      setLoading(false);
     }
     return false;
   }, [ email, password, password2 ]);
@@ -83,6 +95,7 @@ export const RegisterCompleteForm = () => {
         disabled
       />
       <MDBInput
+        disabled={loading}
         label="Password"
         type="password"
         value={password}
@@ -91,13 +104,22 @@ export const RegisterCompleteForm = () => {
         placeholder="Enter your password"
       />
       <MDBInput
+        disabled={loading}
         label="Password confirmation"
         type="password"
         value={password2}
         onChange={handlePassword2InputChange}
         placeholder="Confirm your password"
       />
-      <MDBBtn className="btn btn-raised" type="submit">Complete Registration</MDBBtn>
+      <MDBBtn
+        disabled={!email || password.length < 6 || password2.length < 6 || loading}
+        color="primary"
+        className="btn-rounded btn-block"
+        type="submit"
+      >
+        <UserAddOutlined />
+        <span>Complete Registration</span>
+      </MDBBtn>
     </form>
   );
 };

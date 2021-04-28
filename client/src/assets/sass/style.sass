@@ -10,12 +10,11 @@
 // Your custom variables
 @import "../scss/custom-variables"
 @import "../scss/core/colors"
-$primary-color: #26a69a
+//$primary-color: #26a69a
 
 @import "../scss/core/variables"
 @import "../scss/core/global"
 @import "../scss/core/helpers"
-@import "../scss/core/typography"
 @import "../scss/core/masks"
 @import "../scss/core/waves"
 
@@ -48,5 +47,20 @@ $primary-color: #26a69a
 @import "../scss/addons/flag"
 @import "../scss/addons/rating"
 
-// Your custom styles
-@import "../scss/custom-styles"
+@import "mixins"
+
+.ant-btn, .btn, .ant-menu-item, .ant-menu-submenu-title
+  span
+    vertical-align: middle
+
+.btn-rounded
+  +border-radius(10em)
+
+.btn-block
+  display: block
+
+.btn
+  text-transform: unset
+  font-size: 1rem
+  .anticon
+    margin-right: 10px

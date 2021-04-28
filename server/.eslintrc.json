@@ -4,29 +4,15 @@
     "es6": true,
     "node": true
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": "eslint:recommended",
   "parserOptions": {
-    "ecmaVersion": 11,
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true,
-      "jsx": true
-    }
+    "ecmaVersion": 2020,
+    "sourceType": "module"
   },
   "globals": {
     "BigInt": true
   },
-  "plugins": ["@typescript-eslint"],
-  "parser": "@typescript-eslint/parser",
   "rules": {
-    "react/prop-types": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "react/jsx-no-target-blank": "off",
-    "@typescript-eslint/ban-ts-comment": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "no-use-before-define": "off",
-    "@typescript-eslint/no-use-before-define": ["error"],
-    "no-empty": [ "off" ],
-    "jsx-a11y/anchor-is-valid": [ "off" ],
     "comma-dangle": ["error", "always-multiline"],
     "array-bracket-spacing": ["error", "always"],
     "arrow-parens": ["error", "as-needed"],
@@ -92,6 +78,7 @@
     "no-useless-concat": ["error"],
     "no-useless-escape": ["error"],
     "no-shadow-restricted-names": ["error"],
+    "no-use-before-define": ["error", { "functions": false }],
     "arrow-body-style":  ["error", "as-needed"],
     "arrow-spacing": ["error"],
     "no-confusing-arrow": ["error", { "allowParens": true }],
