@@ -9,7 +9,11 @@ export const AuthBaseTemplate = ({ children, title }) => {
 
   useEffect(() => {
     if (user && user.token) {
-      history.push('/dashboard');
+      if (user.role === 'admin') {
+        history.push('/admin/dashboard');
+      } else {
+        history.push('/user/history');
+      }
     }
   }, [ user ]);
   return (
