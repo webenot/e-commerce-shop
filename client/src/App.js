@@ -9,10 +9,12 @@ import { Register } from 'Pages/auth/Register';
 import { RegisterComplete } from 'Pages/auth/RegisterComplete';
 import { ForgotPassword } from 'Pages/auth/ForgotPassword';
 import { Home } from 'Pages/Home';
+import { History } from 'Pages/user/History';
 import { Header } from 'Components/nav/Header';
 import { auth } from 'App/firebase';
 import { LOGGED_IN_USER } from 'Reducers/userReducer';
 import { currentUser } from 'Services/currentUser';
+import { UserRoute } from 'Components/routes/UserRoute';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -22,9 +24,26 @@ export const App = () => {
   // Check firebase auth state
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(async user => {
+      console.log({ user });
       if (user) {
+        dispatch({
+          type: LOGGED_IN_USER,
+          payload: {
+            name: user.displayName,
+            email: user.email,
+            token: user.za,
+          },
+        });
         try {
           const idTokenResult = await user.getIdTokenResult();
+          dispatch({
+            type: LOGGED_IN_USER,
+            payload: {
+              name: user.displayName,
+              email: user.email,
+              token: idTokenResult.token,
+            },
+          });
           const response = await currentUser(idTokenResult.token);
           if (response && response.data) {
             dispatch({
@@ -56,6 +75,7 @@ export const App = () => {
         <Route exact path="/register" component={Register} />
         <Route exact path="/register/complete" component={RegisterComplete} />
         <Route exact path="/forgot/password" component={ForgotPassword} />
+        <UserRoute exact path="/user/history" component={History} />
       </Switch>
       <ToastContainer
         position="bottom-right"

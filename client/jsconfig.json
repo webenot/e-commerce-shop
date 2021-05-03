@@ -16,6 +16,9 @@
       ],
       "Services/*": [
         "src/services/*"
+      ],
+      "Routes/*": [
+        "src/components/routes/*"
       ]
     }
   }
