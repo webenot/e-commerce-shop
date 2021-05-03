@@ -2,6 +2,8 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
+import { LoadingToRedirect } from 'Routes/LoadingToRedirect';
+
 export const UserRoute = ({
   children,
   ...rest
@@ -9,5 +11,5 @@ export const UserRoute = ({
   const { user } = useSelector(state => state);
   return user && user.token ?
     (<Route {...rest} render={() => children} />) :
-    (<h1 className="text-danger">Loading...</h1>);
+    (<LoadingToRedirect />);
 };
