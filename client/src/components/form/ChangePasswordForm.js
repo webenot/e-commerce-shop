@@ -28,6 +28,8 @@ export const ChangePasswordForm = () => {
     try {
       await auth.currentUser.updatePassword(password);
       toast.success('Your password is updated');
+      setPassword('');
+      setPassword2('');
     } catch (e) {
       toast.error(e.message);
     }
