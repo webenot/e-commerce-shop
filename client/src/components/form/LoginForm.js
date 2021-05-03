@@ -3,14 +3,16 @@ import { MDBInput, MDBBtn } from 'mdbreact';
 import { useHistory } from 'react-router-dom';
 import { GoogleOutlined, MailOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
+import classnames from 'classnames';
 
 import { LOGIN_TITLE, LOGIN_TITLE_LOADING } from 'App/config';
 import { authUser } from 'Services/authUser';
 
-export const LoginForm = ({ setTitle }) => {
+export const LoginForm = () => {
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ loading, setLoading ] = useState(false);
+  const [ title, setTitle ] = useState(LOGIN_TITLE);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -50,41 +52,44 @@ export const LoginForm = ({ setTitle }) => {
   }, []);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <MDBInput
-        disabled={loading}
-        label="Email"
-        type="email"
-        value={email}
-        onChange={handleEmailChange}
-        autoFocus
-      />
-      <MDBInput
-        disabled={loading}
-        label="Password"
-        type="password"
-        value={password}
-        onChange={handlePasswordChange}
-      />
-      <MDBBtn
-        disabled={!email || password.length < 6 || loading}
-        color="primary"
-        className="btn-rounded btn-block"
-        type="submit"
-        tabIndex="1"
-      >
-        <MailOutlined />
-        <span>Login with Email/Password</span>
-      </MDBBtn>
-      <br />
-      <MDBBtn
-        color="danger"
-        className="btn-rounded btn-block"
-        onClick={handleGoogleLogin}
-      >
-        <GoogleOutlined />
-        <span>Login with Google</span>
-      </MDBBtn>
-    </form>
+    <>
+      <h4 className={classnames({ 'text-danger': loading })}>{title}</h4>
+      <form onSubmit={handleSubmit}>
+        <MDBInput
+          disabled={loading}
+          label="Email"
+          type="email"
+          value={email}
+          onChange={handleEmailChange}
+          autoFocus
+        />
+        <MDBInput
+          disabled={loading}
+          label="Password"
+          type="password"
+          value={password}
+          onChange={handlePasswordChange}
+        />
+        <MDBBtn
+          disabled={!email || password.length < 6 || loading}
+          color="primary"
+          className="btn-rounded btn-block"
+          type="submit"
+          tabIndex="1"
+        >
+          <MailOutlined />
+          <span>Login with Email/Password</span>
+        </MDBBtn>
+        <br />
+        <MDBBtn
+          color="danger"
+          className="btn-rounded btn-block"
+          onClick={handleGoogleLogin}
+        >
+          <GoogleOutlined />
+          <span>Login with Google</span>
+        </MDBBtn>
+      </form>
+    </>
   );
 };

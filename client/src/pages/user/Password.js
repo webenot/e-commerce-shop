@@ -2,16 +2,17 @@ import React from 'react';
 import { MDBRow, MDBContainer, MDBCol } from 'mdbreact';
 
 import { UserNav } from 'Components/nav/UserNav';
+import { ChangePasswordForm } from 'Components/form/ChangePasswordForm';
 
-export const History = () => (
+export const Password = () => (
   <MDBContainer fluid>
     <MDBRow>
       <MDBCol lg="2">
-        <UserNav current="user/history" />
+        <UserNav current="user/password" />
       </MDBCol>
 
-      <MDBCol>
-        user page
+      <MDBCol lg="4">
+        <ChangePasswordForm />
       </MDBCol>
     </MDBRow>
   </MDBContainer>

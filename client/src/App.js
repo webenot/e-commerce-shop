@@ -10,6 +10,8 @@ import { RegisterComplete } from 'Pages/auth/RegisterComplete';
 import { ForgotPassword } from 'Pages/auth/ForgotPassword';
 import { Home } from 'Pages/Home';
 import { History } from 'Pages/user/History';
+import { Password } from 'Pages/user/Password';
+import { Wishlist } from 'Pages/user/Wishlist';
 import { Header } from 'Components/nav/Header';
 import { auth } from 'App/firebase';
 import { LOGGED_IN_USER } from 'Reducers/userReducer';
@@ -76,6 +78,8 @@ export const App = () => {
         <Route exact path="/register/complete" component={RegisterComplete} />
         <Route exact path="/forgot/password" component={ForgotPassword} />
         <UserRoute exact path="/user/history" component={History} />
+        <UserRoute exact path="/user/password" component={Password} />
+        <UserRoute exact path="/user/wishlist" component={Wishlist} />
       </Switch>
       <ToastContainer
         position="bottom-right"
