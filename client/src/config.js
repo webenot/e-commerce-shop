@@ -6,3 +6,5 @@ export const REGISTER_COMPLETE_TITLE = 'Register Complete';
 export const REGISTER_COMPLETE_TITLE_LOADING = 'Setting up password...';
 export const FORGOT_PASSWORD_TITLE = 'Restore password';
 export const FORGOT_PASSWORD_TITLE_LOADING = 'Sending an email...';
+export const CHANGE_PASSWORD_TITLE = 'Change password';
+export const CHANGE_PASSWORD_TITLE_LOADING = 'Saving new password...';

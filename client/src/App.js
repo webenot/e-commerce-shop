@@ -10,11 +10,15 @@ import { RegisterComplete } from 'Pages/auth/RegisterComplete';
 import { ForgotPassword } from 'Pages/auth/ForgotPassword';
 import { Home } from 'Pages/Home';
 import { History } from 'Pages/user/History';
+import { Password } from 'Pages/user/Password';
+import { Wishlist } from 'Pages/user/Wishlist';
+import { AdminDashboard } from 'Pages/admin/AdminDashboard';
 import { Header } from 'Components/nav/Header';
 import { auth } from 'App/firebase';
 import { LOGGED_IN_USER } from 'Reducers/userReducer';
-import { currentUser } from 'Services/currentUser';
+import { currentUser } from 'Services/authService';
 import { UserRoute } from 'Components/routes/UserRoute';
+import { AdminRoute } from 'Components/routes/AdminRoute';
 
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -76,6 +80,9 @@ export const App = () => {
         <Route exact path="/register/complete" component={RegisterComplete} />
         <Route exact path="/forgot/password" component={ForgotPassword} />
         <UserRoute exact path="/user/history" component={History} />
+        <UserRoute exact path="/user/password" component={Password} />
+        <UserRoute exact path="/user/wishlist" component={Wishlist} />
+        <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
       </Switch>
       <ToastContainer
         position="bottom-right"

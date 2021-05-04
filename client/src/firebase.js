@@ -1,4 +1,6 @@
-import firebase from 'firebase';
+import firebaseApp from 'firebase/app';
+import 'firebase/analytics';
+import 'firebase/auth';
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -12,8 +14,8 @@ const firebaseConfig = {
   measurementId: process.env.REACT_APP_MEASUREMENT_ID,
 };
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-firebase.analytics();
+firebaseApp.initializeApp(firebaseConfig);
+firebaseApp.analytics();
 
-export const auth = firebase.auth();
-export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+export const auth = firebaseApp.auth();
+export const googleAuthProvider = new firebaseApp.auth.GoogleAuthProvider();

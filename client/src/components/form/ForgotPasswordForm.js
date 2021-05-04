@@ -1,14 +1,16 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { MDBInput, MDBBtn } from 'mdbreact';
 import { toast } from 'react-toastify';
+import classnames from 'classnames';
+import { MailOutlined } from '@ant-design/icons';
 
 import { auth } from 'App/firebase';
-import { MailOutlined } from '@ant-design/icons';
 import { FORGOT_PASSWORD_TITLE, FORGOT_PASSWORD_TITLE_LOADING } from 'App/config';
 
-export const ForgotPasswordForm = ({ setTitle }) => {
+export const ForgotPasswordForm = () => {
   const [ email, setEmail ] = useState('');
   const [ loading, setLoading ] = useState(false);
+  const [ title, setTitle ] = useState(FORGOT_PASSWORD_TITLE);
 
   useEffect(() => {
     setTitle(loading ? FORGOT_PASSWORD_TITLE_LOADING : FORGOT_PASSWORD_TITLE);
@@ -43,24 +45,27 @@ export const ForgotPasswordForm = ({ setTitle }) => {
   }, []);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <MDBInput
-        disabled={loading}
-        label="Email"
-        type="email"
-        value={email}
-        onChange={handleInputChange}
-        autoFocus
-      />
-      <MDBBtn
-        disabled={!email || email.indexOf('@') === -1 || email.indexOf('@') === email.length - 1 || loading}
-        color="primary"
-        className="btn-rounded btn-block"
-        type="submit"
-      >
-        <MailOutlined />
-        <span>Restore / {email}</span>
-      </MDBBtn>
-    </form>
+    <>
+      <h4 className={classnames({ 'text-danger': loading })}>{title}</h4>
+      <form onSubmit={handleSubmit}>
+        <MDBInput
+          disabled={loading}
+          label="Email"
+          type="email"
+          value={email}
+          onChange={handleInputChange}
+          autoFocus
+        />
+        <MDBBtn
+          disabled={!email || email.indexOf('@') === -1 || email.indexOf('@') === email.length - 1 || loading}
+          color="primary"
+          className="btn-rounded btn-block"
+          type="submit"
+        >
+          <MailOutlined />
+          <span>Restore / {email}</span>
+        </MDBBtn>
+      </form>
+    </>
   );
 };

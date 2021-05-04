@@ -3,15 +3,15 @@ import { MDBRow, MDBContainer, MDBCol } from 'mdbreact';
 
 import { UserNav } from 'Components/nav/UserNav';
 
-export const History = () => (
+export const Wishlist = () => (
   <MDBContainer fluid>
     <MDBRow>
       <MDBCol lg="2">
-        <UserNav current="user/history" />
+        <UserNav current="user/wishlist" />
       </MDBCol>
 
       <MDBCol>
-        user page
+        user wishlist
       </MDBCol>
     </MDBRow>
   </MDBContainer>

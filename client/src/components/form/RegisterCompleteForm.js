@@ -4,19 +4,20 @@ import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import classnames from 'classnames';
+import { UserAddOutlined } from '@ant-design/icons';
 
 import { auth } from 'App/firebase';
-import { UserAddOutlined } from '@ant-design/icons';
-import { REGISTER_TITLE, REGISTER_COMPLETE_TITLE_LOADING } from 'App/config';
-import { createOrUpdateUser } from 'Services/createOrUpdateUser';
+import { REGISTER_COMPLETE_TITLE, REGISTER_COMPLETE_TITLE_LOADING } from 'App/config';
 import { LOGGED_IN_USER } from 'Reducers/userReducer';
-import { roleBasedRedirect } from 'Services/roleBasedRedirect';
+import { roleBasedRedirect, createOrUpdateUser } from 'Services/authService';
 
-export const RegisterCompleteForm = ({ setTitle }) => {
+export const RegisterCompleteForm = () => {
   const [ email, setEmail ] = useState('');
   const [ password, setPassword ] = useState('');
   const [ password2, setPassword2 ] = useState('');
   const [ loading, setLoading ] = useState(false);
+  const [ title, setTitle ] = useState(REGISTER_COMPLETE_TITLE);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -28,7 +29,7 @@ export const RegisterCompleteForm = ({ setTitle }) => {
   }, []);
 
   useEffect(() => {
-    setTitle(loading ? REGISTER_COMPLETE_TITLE_LOADING : REGISTER_TITLE);
+    setTitle(loading ? REGISTER_COMPLETE_TITLE_LOADING : REGISTER_COMPLETE_TITLE);
   }, [ loading ]);
 
   const handleSubmit = useCallback(async e => {
@@ -87,39 +88,42 @@ export const RegisterCompleteForm = ({ setTitle }) => {
   }, []);
 
   return (
-    <form onSubmit={handleSubmit}>
-      <MDBInput
-        label="Email"
-        type="email"
-        value={email}
-        disabled
-      />
-      <MDBInput
-        disabled={loading}
-        label="Password"
-        type="password"
-        value={password}
-        onChange={handlePasswordInputChange}
-        autoFocus
-        placeholder="Enter your password"
-      />
-      <MDBInput
-        disabled={loading}
-        label="Password confirmation"
-        type="password"
-        value={password2}
-        onChange={handlePassword2InputChange}
-        placeholder="Confirm your password"
-      />
-      <MDBBtn
-        disabled={!email || password.length < 6 || password2.length < 6 || loading}
-        color="primary"
-        className="btn-rounded btn-block"
-        type="submit"
-      >
-        <UserAddOutlined />
-        <span>Complete Registration</span>
-      </MDBBtn>
-    </form>
+    <>
+      <h4 className={classnames({ 'text-danger': loading })}>{title}</h4>
+      <form onSubmit={handleSubmit}>
+        <MDBInput
+          label="Email"
+          type="email"
+          value={email}
+          disabled
+        />
+        <MDBInput
+          disabled={loading}
+          label="Password"
+          type="password"
+          value={password}
+          onChange={handlePasswordInputChange}
+          autoFocus
+          placeholder="Enter your password"
+        />
+        <MDBInput
+          disabled={loading}
+          label="Password confirmation"
+          type="password"
+          value={password2}
+          onChange={handlePassword2InputChange}
+          placeholder="Confirm your password"
+        />
+        <MDBBtn
+          disabled={!email || password.length < 6 || password2.length < 6 || loading}
+          color="primary"
+          className="btn-rounded btn-block"
+          type="submit"
+        >
+          <UserAddOutlined />
+          <span>Complete Registration</span>
+        </MDBBtn>
+      </form>
+    </>
   );
 };

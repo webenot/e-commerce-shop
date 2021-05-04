@@ -1,17 +1,17 @@
 import React from 'react';
 import { MDBRow, MDBContainer, MDBCol } from 'mdbreact';
 
-import { UserNav } from 'Components/nav/UserNav';
+import { AdminNav } from 'Components/nav/AdminNav';
 
-export const History = () => (
+export const AdminDashboard = () => (
   <MDBContainer fluid>
     <MDBRow>
       <MDBCol lg="2">
-        <UserNav current="user/history" />
+        <AdminNav current="admin/dashboard" />
       </MDBCol>
 
       <MDBCol>
-        user page
+        admin dashboard
       </MDBCol>
     </MDBRow>
   </MDBContainer>

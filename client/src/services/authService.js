@@ -1,9 +1,22 @@
+import axios from 'axios';
 import { toast } from 'react-toastify';
 
 import { auth, googleAuthProvider } from 'App/firebase';
-import { createOrUpdateUser } from 'Services/createOrUpdateUser';
 import { LOGGED_IN_USER } from 'Reducers/userReducer';
-import { roleBasedRedirect } from 'Services/roleBasedRedirect';
+
+export const roleBasedRedirect = (response, history) => {
+  if (response.data.role === 'admin') {
+    history.push('/admin/dashboard');
+  } else {
+    history.push('/user/history');
+  }
+};
+
+export const createOrUpdateUser = authtoken => axios.post(
+  `${process.env.REACT_APP_API_BASE_LINK}/create-or-update-user`,
+  {},
+  { headers: { authtoken } },
+);
 
 export const authUser = async (strategy, setLoading, message, history, dispatch, ...args) => {
   setLoading(true);
@@ -49,3 +62,15 @@ export const authUser = async (strategy, setLoading, message, history, dispatch,
     setLoading(false);
   }
 };
+
+export const currentUser = authtoken => axios.post(
+  `${process.env.REACT_APP_API_BASE_LINK}/current-user`,
+  {},
+  { headers: { authtoken } },
+);
+
+export const currentAdmin = authtoken => axios.post(
+  `${process.env.REACT_APP_API_BASE_LINK}/current-admin`,
+  {},
+  { headers: { authtoken } },
+);

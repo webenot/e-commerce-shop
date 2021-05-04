@@ -4,12 +4,9 @@ import { useSelector } from 'react-redux';
 
 import { LoadingToRedirect } from 'Routes/LoadingToRedirect';
 
-export const UserRoute = ({
-  children,
-  ...rest
-}) => {
+export const UserRoute = ({ ...rest }) => {
   const { user } = useSelector(state => state);
   return user && user.token ?
-    (<Route {...rest} render={() => children} />) :
+    (<Route {...rest} />) :
     (<LoadingToRedirect />);
 };
