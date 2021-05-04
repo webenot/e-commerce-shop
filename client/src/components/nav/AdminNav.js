@@ -1,7 +1,7 @@
 import React from 'react';
 import { MDBNav, MDBNavItem, MDBNavLink } from 'mdbreact';
 
-export const AdminNav = ({ current }) => (
+export const AdminNav = ({ current = '' }) => (
   <nav className="sidebar-navigation">
     <MDBNav pills className="flex-column">
       <MDBNavItem>

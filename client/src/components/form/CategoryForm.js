@@ -4,23 +4,36 @@ import { toast } from 'react-toastify';
 import classnames from 'classnames';
 import { MDBBtn, MDBInput } from 'mdbreact';
 import { SaveOutlined } from '@ant-design/icons';
+import { useHistory } from 'react-router-dom';
 
 import { createCategory, updateCategory } from 'Services/categoryService';
-import { CATEGORY_TITLE, CATEGORY_TITLE_LOADING } from 'App/config';
+import {
+  CREATE_CATEGORY_TITLE,
+  CREATE_CATEGORY_TITLE_LOADING,
+  EDIT_CATEGORY_TITLE,
+  EDIT_CATEGORY_TITLE_LOADING,
+} from 'App/config';
 
 export const CategoryForm = ({
   category = null,
   action = 'create',
-  load,
+  load = null,
 }) => {
   const [ loading, setLoading ] = useState(false);
-  const [ title, setTitle ] = useState(CATEGORY_TITLE);
+  const [ title, setTitle ] = useState('');
   const [ name, setName ] = useState('');
 
   const { user } = useSelector(state => state);
+  const history = useHistory();
 
   useEffect(() => {
-    setTitle(loading ? CATEGORY_TITLE_LOADING : CATEGORY_TITLE);
+    switch (action) {
+      case 'edit':
+        setTitle(loading ? EDIT_CATEGORY_TITLE_LOADING : EDIT_CATEGORY_TITLE);
+        break;
+      default:
+        setTitle(loading ? CREATE_CATEGORY_TITLE_LOADING : CREATE_CATEGORY_TITLE);
+    }
   }, [ loading ]);
 
   useEffect(() => {
@@ -33,20 +46,21 @@ export const CategoryForm = ({
     try {
       let result = null;
       switch (action) {
-        case 'create':
+        case 'edit':
+          if (category) {
+            result = await updateCategory(category.slug, { name }, user.token);
+            toast.success(`Category "${result.data.name}" updated successfully`);
+            history.push('/admin/category');
+          }
+          break;
+        default:
           result = await createCategory({ name }, user.token);
           toast.success(`Category "${result.data.name}" created successfully`);
           setName('');
-          load();
-          break;
-        case 'update':
-          if (!category) {
-            toast.error('No category selected');
-            break;
+          if (load) {
+            load();
           }
-          result = await updateCategory(category.slug, { name }, user.token);
-          toast.success(`Category "${result.data.name}" updated successfully`);
-          break;
+          setLoading(false);
       }
     } catch (e) {
       console.error(e);
@@ -56,8 +70,8 @@ export const CategoryForm = ({
         toast.error(e.message);
       }
       setName(category ? category.name : '');
+      setLoading(false);
     }
-    setLoading(false);
     return false;
   }, [ name, load, action, category ]);
 
