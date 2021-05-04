@@ -96,6 +96,7 @@ export const RegisterCompleteForm = () => {
           type="email"
           value={email}
           disabled
+          required
         />
         <MDBInput
           disabled={loading}
@@ -104,7 +105,7 @@ export const RegisterCompleteForm = () => {
           value={password}
           onChange={handlePasswordInputChange}
           autoFocus
-          placeholder="Enter your password"
+          required
         />
         <MDBInput
           disabled={loading}
@@ -112,7 +113,7 @@ export const RegisterCompleteForm = () => {
           type="password"
           value={password2}
           onChange={handlePassword2InputChange}
-          placeholder="Confirm your password"
+          required
         />
         <MDBBtn
           disabled={!email || password.length < 6 || password2.length < 6 || loading}

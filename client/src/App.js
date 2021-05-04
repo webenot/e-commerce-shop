@@ -13,6 +13,8 @@ import { History } from 'Pages/user/History';
 import { Password } from 'Pages/user/Password';
 import { Wishlist } from 'Pages/user/Wishlist';
 import { AdminDashboard } from 'Pages/admin/AdminDashboard';
+import { CategoryCreate } from 'Pages/admin/category/CategoryCreate';
+import { CategoryEdit } from 'Pages/admin/category/CategoryEdit';
 import { Header } from 'Components/nav/Header';
 import { auth } from 'App/firebase';
 import { LOGGED_IN_USER } from 'Reducers/userReducer';
@@ -83,6 +85,8 @@ export const App = () => {
         <UserRoute exact path="/user/password" component={Password} />
         <UserRoute exact path="/user/wishlist" component={Wishlist} />
         <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
+        <AdminRoute exact path="/admin/category" component={CategoryCreate} />
+        <AdminRoute exact path="/admin/category/:slug" component={CategoryEdit} />
       </Switch>
       <ToastContainer
         position="bottom-right"

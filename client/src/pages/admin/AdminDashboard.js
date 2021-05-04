@@ -9,7 +9,6 @@ export const AdminDashboard = () => (
       <MDBCol lg="2">
         <AdminNav current="admin/dashboard" />
       </MDBCol>
-
       <MDBCol>
         admin dashboard
       </MDBCol>

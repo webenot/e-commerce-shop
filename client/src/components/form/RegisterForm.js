@@ -56,6 +56,7 @@ export const RegisterForm = () => {
           value={email}
           onChange={handleInputChange}
           autoFocus
+          required
         />
         <MDBBtn
           disabled={!email || email.indexOf('@') === -1 || email.indexOf('@') === email.length - 1 || loading}

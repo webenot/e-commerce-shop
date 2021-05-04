@@ -1,6 +1,6 @@
 const User = require('models/user');
 
-const currentUser = async (req, res) => {
+module.exports.currentUser = async (req, res) => {
   if (req.user) {
     const { email } = req.user;
     const user = await User.findOne({ email });
@@ -12,7 +12,7 @@ const currentUser = async (req, res) => {
   res.status(404).json({ err: 'No such user' });
 };
 
-const createOrUpdateUser = async (req, res) => {
+module.exports.createOrUpdateUser = async (req, res) => {
   if (req.user) {
     const {
       email,
@@ -42,9 +42,4 @@ const createOrUpdateUser = async (req, res) => {
     return;
   }
   res.status(401).json({ err: 'No such user' });
-};
-
-module.exports = {
-  currentUser,
-  createOrUpdateUser,
 };

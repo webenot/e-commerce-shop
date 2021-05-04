@@ -62,6 +62,7 @@ export const LoginForm = () => {
           value={email}
           onChange={handleEmailChange}
           autoFocus
+          required
         />
         <MDBInput
           disabled={loading}
@@ -69,6 +70,7 @@ export const LoginForm = () => {
           type="password"
           value={password}
           onChange={handlePasswordChange}
+          required
         />
         <MDBBtn
           disabled={!email || password.length < 6 || loading}
