@@ -50,8 +50,26 @@ export const Header = () => {
             title={user ? (user.name ? user.name : (user.email ? user.email.split('@')[0] : 'Username')) : 'Username'}
             className="float-right"
           >
-            <Item key="setting:1">Option 1</Item>
-            <Item key="setting:2">Option 2</Item>
+            {user && user.role === 'admin' && (
+              <>
+                <Item key="dashboard">
+                  <Link to="/admin/dashboard">Dashboard</Link>
+                </Item>
+              </>
+            )}
+            {user && user.role === 'subscriber' && (
+              <>
+                <Item key="dashboard">
+                  <Link to="/user/history">Dashboard</Link>
+                </Item>
+              </>
+            )}
+            <Item key="password">
+              <Link to="/user/password">Password</Link>
+            </Item>
+            <Item key="wishlist">
+              <Link to="/user/wishlist">Wishlist</Link>
+            </Item>
             <Item icon={<LogoutOutlined />} onClick={handleLogout}>Logout</Item>
           </SubMenu>
         )}

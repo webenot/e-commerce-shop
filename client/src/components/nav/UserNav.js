@@ -8,10 +8,10 @@ export const UserNav = ({ current }) => (
         <MDBNavLink active={current === '/user/history'} to="/user/history">History</MDBNavLink>
       </MDBNavItem>
       <MDBNavItem>
-        <MDBNavLink to="/user/password">Password</MDBNavLink>
+        <MDBNavLink active={current === '/user/password'} to="/user/password">Password</MDBNavLink>
       </MDBNavItem>
       <MDBNavItem>
-        <MDBNavLink to="/user/wishlist">Wishlist</MDBNavLink>
+        <MDBNavLink active={current === '/user/wishlist'} to="/user/wishlist">Wishlist</MDBNavLink>
       </MDBNavItem>
     </MDBNav>
   </nav>
