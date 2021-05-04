@@ -25,7 +25,7 @@ export const CategoryEdit = ({ match }) => {
         }
       })
       .finally(() => setLoading(false));
-  }, []);
+  }, [ match ]);
 
   return (
     <MDBContainer fluid>
