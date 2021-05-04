@@ -5,6 +5,7 @@ const Category = require('models/category');
 module.exports.create = async (req, res) => {
   try {
     const { name } = req.body;
+    console.log(req.body);
     const newCategory = await new Category({
       name,
       slug: slugify(name),

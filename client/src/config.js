@@ -8,3 +8,5 @@ export const FORGOT_PASSWORD_TITLE = 'Restore password';
 export const FORGOT_PASSWORD_TITLE_LOADING = 'Sending an email...';
 export const CHANGE_PASSWORD_TITLE = 'Change password';
 export const CHANGE_PASSWORD_TITLE_LOADING = 'Saving new password...';
+export const CATEGORY_TITLE = 'Category';
+export const CATEGORY_TITLE_LOADING = 'Saving category...';

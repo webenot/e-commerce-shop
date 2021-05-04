@@ -56,7 +56,7 @@ export const ChangePasswordForm = () => {
           value={password}
           onChange={handlePasswordInputChange}
           autoFocus
-          placeholder="Enter your new password"
+          required
         />
         <MDBInput
           disabled={loading}
@@ -64,7 +64,7 @@ export const ChangePasswordForm = () => {
           type="password"
           value={password2}
           onChange={handlePassword2InputChange}
-          placeholder="Confirm your new password"
+          required
         />
         <MDBBtn
           disabled={password.length < 6 || password2.length < 6 || loading}
