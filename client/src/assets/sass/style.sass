@@ -7,8 +7,6 @@
 
 // CORE
 @import "../scss/core/mixins"
-// Your custom variables
-@import "../scss/custom-variables"
 @import "../scss/core/colors"
 //$primary-color: #26a69a
 
@@ -19,33 +17,33 @@
 @import "../scss/core/waves"
 
 // FREE
-@import "../scss/free/animations-basic"
-@import "../scss/free/modules/animations-extended/module"
 @import "../scss/free/buttons"
 @import "../scss/free/cards"
-@import "../scss/free/dropdowns"
-@import "../scss/free/input-group"
-@import "../scss/free/navbars"
-@import "../scss/free/pagination"
-@import "../scss/free/badges"
-@import "../scss/free/modals"
-@import "../scss/free/carousels"
 @import "../scss/free/forms"
-@import "../scss/free/msc"
-@import "../scss/free/footers"
-@import "../scss/free/list-group"
-@import "../scss/free/tables"
-@import "../scss/free/depreciated"
-@import "../scss/free/steppers"
 @import "../scss/free/loader"
-@import "../scss/free/treeview"
-// Free addons
-@import "../scss/addons/datatables"
-@import "../scss/addons/datatables-select"
-@import "../scss/addons/directives"
-@import "../scss/addons/hierarchical-display"
-@import "../scss/addons/flag"
-@import "../scss/addons/rating"
+
+// BOOTSTRAP
+
+// CORE FUNCTIONS
+@import '../scss/bootstrap/bootstrap-rtl-fix/functions'
+@import '../scss/bootstrap/free/functions'
+
+// CORE VARIABLES
+@import '../scss/bootstrap/free/variables'
+@import '../scss/bootstrap/bootstrap-rtl-fix/variables'
+
+// BOOTSTRAP CORE
+@import '../scss/bootstrap/bootstrap-rtl-fix/mixins'
+@import '../scss/bootstrap/bootstrap-rtl-fix/utilities'
+
+// BOOTSTRAP COMPONENTS
+@import '../scss/bootstrap/bootstrap-rtl-fix/buttons'
+
+// MDB CORE
+@import '../scss/bootstrap/free/mixins'
+
+// MDB COMPONENTS
+@import '../scss/bootstrap/free/buttons'
 
 @import "mixins"
 
@@ -69,3 +67,4 @@
   .nav-link.active
     background-color: $primary-color
     color: white
+

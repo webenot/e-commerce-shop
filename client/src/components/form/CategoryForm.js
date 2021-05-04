@@ -11,10 +11,12 @@ import { CATEGORY_TITLE, CATEGORY_TITLE_LOADING } from 'App/config';
 export const CategoryForm = ({
   category = null,
   action = 'create',
+  load,
 }) => {
   const [ loading, setLoading ] = useState(false);
   const [ title, setTitle ] = useState(CATEGORY_TITLE);
   const [ name, setName ] = useState('');
+
   const { user } = useSelector(state => state);
 
   useEffect(() => {
@@ -32,9 +34,10 @@ export const CategoryForm = ({
       let result = null;
       switch (action) {
         case 'create':
-          await createCategory({ name }, user.token);
-          toast.success('Category created successfully');
+          result = await createCategory({ name }, user.token);
+          toast.success(`Category "${result.data.name}" created successfully`);
           setName('');
+          load();
           break;
         case 'update':
           if (!category) {
@@ -42,15 +45,21 @@ export const CategoryForm = ({
             break;
           }
           result = await updateCategory(category.slug, { name }, user.token);
-          console.log({ result });
+          toast.success(`Category "${result.data.name}" updated successfully`);
+          break;
       }
     } catch (e) {
       console.error(e);
-      toast.error(e.message);
+      if (e.response && e.response.status === 500) {
+        toast.error(e.response.data);
+      } else {
+        toast.error(e.message);
+      }
+      setName(category ? category.name : '');
     }
     setLoading(false);
     return false;
-  }, [ name ]);
+  }, [ name, load, action, category ]);
 
   const handleNameChange = useCallback(e => {
     setName(e.target.value);
