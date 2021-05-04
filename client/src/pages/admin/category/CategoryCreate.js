@@ -1,16 +1,15 @@
 import React from 'react';
-import { MDBRow, MDBContainer, MDBCol } from 'mdbreact';
-
+import { MDBCol, MDBContainer, MDBRow } from 'mdbreact';
 import { AdminNav } from 'Components/nav/AdminNav';
 
-export const AdminDashboard = () => (
+export const CategoryCreate = () => (
   <MDBContainer fluid>
     <MDBRow>
       <MDBCol lg="2">
-        <AdminNav current="admin/dashboard" />
+        <AdminNav current="admin/category" />
       </MDBCol>
       <MDBCol>
-        admin dashboard
+        category create
       </MDBCol>
     </MDBRow>
   </MDBContainer>

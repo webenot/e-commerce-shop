@@ -1,19 +1,30 @@
 import React from 'react';
 import { MDBRow, MDBContainer, MDBCol } from 'mdbreact';
+import { useSelector } from 'react-redux';
 
 import { UserNav } from 'Components/nav/UserNav';
 import { ChangePasswordForm } from 'Components/form/ChangePasswordForm';
+import { AdminNav } from 'Components/nav/AdminNav';
 
-export const Password = () => (
-  <MDBContainer fluid>
-    <MDBRow>
-      <MDBCol lg="2">
-        <UserNav current="user/password" />
-      </MDBCol>
+export const Password = () => {
+  const { user } = useSelector(state => state);
 
-      <MDBCol lg="4">
-        <ChangePasswordForm />
-      </MDBCol>
-    </MDBRow>
-  </MDBContainer>
-);
+  return (
+    <MDBContainer fluid>
+      <MDBRow>
+        <MDBCol lg="2">
+          {user && user.role === 'admin' && (
+            <AdminNav current="user/password" />
+          )}
+          {user && user.role === 'subscriber' && (
+            <UserNav current="user/password" />
+          )}
+        </MDBCol>
+
+        <MDBCol lg="4">
+          <ChangePasswordForm />
+        </MDBCol>
+      </MDBRow>
+    </MDBContainer>
+  );
+};
