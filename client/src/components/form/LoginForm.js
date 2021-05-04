@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import classnames from 'classnames';
 
 import { LOGIN_TITLE, LOGIN_TITLE_LOADING } from 'App/config';
-import { authUser } from 'Services/authUser';
+import { authUser } from 'Services/authService';
 
 export const LoginForm = () => {
   const [ email, setEmail ] = useState('');

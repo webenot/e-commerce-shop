@@ -9,9 +9,8 @@ import { UserAddOutlined } from '@ant-design/icons';
 
 import { auth } from 'App/firebase';
 import { REGISTER_COMPLETE_TITLE, REGISTER_COMPLETE_TITLE_LOADING } from 'App/config';
-import { createOrUpdateUser } from 'Services/createOrUpdateUser';
 import { LOGGED_IN_USER } from 'Reducers/userReducer';
-import { roleBasedRedirect } from 'Services/roleBasedRedirect';
+import { roleBasedRedirect, createOrUpdateUser } from 'Services/authService';
 
 export const RegisterCompleteForm = () => {
   const [ email, setEmail ] = useState('');
