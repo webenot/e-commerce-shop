@@ -7,20 +7,23 @@ import classnames from 'classnames';
 
 import { AdminNav } from 'Components/nav/AdminNav';
 import { CategoryForm } from 'Components/forms/CategoryForm';
+import { LocalSearch } from 'Components/forms/LocalSearch';
 import { createCategory, getCategories, removeCategory } from 'Services/categoryService';
 import { CREATE_CATEGORY_TITLE, CREATE_CATEGORY_TITLE_LOADING } from 'App/config';
 
 export const CategoryCreate = () => {
   const [ categories, setCategories ] = useState([]);
-  const [ loading, setLoading ] = useState(false);
+  const [ loading, setLoading ] = useState(true);
+  const [ saving, setSaving ] = useState(false);
   const [ title, setTitle ] = useState('');
   const [ name, setName ] = useState('');
+  const [ keyword, setKeyword ] = useState('');
 
   const { user } = useSelector(state => state);
 
   useEffect(() => {
-    setTitle(loading ? CREATE_CATEGORY_TITLE_LOADING : CREATE_CATEGORY_TITLE);
-  }, [ loading ]);
+    setTitle(saving ? CREATE_CATEGORY_TITLE_LOADING : CREATE_CATEGORY_TITLE);
+  }, [ saving ]);
 
   const loadCategories = useCallback(() => {
     setLoading(true);
@@ -36,7 +39,7 @@ export const CategoryCreate = () => {
         }
       })
       .finally(() => setLoading(false));
-  });
+  }, []);
 
   useEffect(() => {
     loadCategories();
@@ -57,11 +60,11 @@ export const CategoryCreate = () => {
       }
     }
     setLoading(false);
-  }, [ categories ]);
+  }, []);
 
   const handleSubmit = useCallback(async e => {
     e.preventDefault();
-    setLoading(true);
+    setSaving(true);
     try {
       const result = await createCategory({ name }, user.token);
       toast.success(`Category "${result.data.name}" created successfully`);
@@ -75,9 +78,12 @@ export const CategoryCreate = () => {
         toast.error(e.message);
       }
     }
-    setLoading(false);
+    setSaving(false);
     return false;
   }, [ name ]);
+
+  const searchFilter = keyword => category =>
+    category.name.toLowerCase().includes(keyword.toLowerCase());
 
   return (
     <MDBContainer fluid>
@@ -89,12 +95,21 @@ export const CategoryCreate = () => {
           <MDBContainer>
             <MDBRow>
               <MDBCol lg="6">
-                <h4 className={classnames({ 'text-danger': loading })}>{title}</h4>
+                <h4 className={classnames({ 'text-danger': saving })}>{title}</h4>
                 <CategoryForm
                   handleSubmit={handleSubmit}
                   name={name}
-                  loading={loading}
+                  loading={saving}
                   setName={setName}
+                />
+              </MDBCol>
+            </MDBRow>
+            <hr />
+            <MDBRow>
+              <MDBCol lg="6">
+                <LocalSearch
+                  keyword={keyword}
+                  setKeyword={setKeyword}
                 />
               </MDBCol>
             </MDBRow>
@@ -103,8 +118,11 @@ export const CategoryCreate = () => {
                 <span className="sr-only">Loading...</span>
               </div>
             )}
-            {categories.length && categories.map(category => (
-              <MDBRow key={`category-${category._id}`} className="alert alert-secondary category-item">
+            {categories && categories.length ? categories.filter(searchFilter(keyword)).map(category => (
+              <MDBRow
+                key={`category-${category._id}`}
+                className="alert alert-secondary category-item"
+              >
                 <MDBCol>
                   <span>{category.name}</span>
                   <button
@@ -120,7 +138,7 @@ export const CategoryCreate = () => {
                   ><i className="far fa-edit" /></Link>
                 </MDBCol>
               </MDBRow>
-            ))}
+            )) : ''}
           </MDBContainer>
         </MDBCol>
       </MDBRow>
