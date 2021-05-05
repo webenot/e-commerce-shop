@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { MDBCol, MDBContainer, MDBRow } from 'mdbreact';
+import { MDBCol, MDBContainer, MDBRow, MDBInput } from 'mdbreact';
 import { toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -15,6 +15,7 @@ export const CategoryCreate = () => {
   const [ loading, setLoading ] = useState(false);
   const [ title, setTitle ] = useState('');
   const [ name, setName ] = useState('');
+  const [ keyword, setKeyword ] = useState('');
 
   const { user } = useSelector(state => state);
 
@@ -79,6 +80,12 @@ export const CategoryCreate = () => {
     return false;
   }, [ name ]);
 
+  const handleKeywordChange = useCallback(e => {
+    setKeyword(e.target.value);
+  }, []);
+
+  const searchFilter = category => category.name.toLowerCase().includes(keyword.toLowerCase());
+
   return (
     <MDBContainer fluid>
       <MDBRow>
@@ -98,12 +105,24 @@ export const CategoryCreate = () => {
                 />
               </MDBCol>
             </MDBRow>
+            <hr />
+            <MDBRow>
+              <MDBCol lg="6">
+                <MDBInput
+                  label="Search category by name"
+                  type="search"
+                  value={keyword}
+                  onChange={handleKeywordChange}
+                  autoFocus
+                />
+              </MDBCol>
+            </MDBRow>
             {loading && (
               <div className="spinner-border text-primary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
             )}
-            {categories.length && categories.map(category => (
+            {categories.length && categories.filter(searchFilter).map(category => (
               <MDBRow key={`category-${category._id}`} className="alert alert-secondary category-item">
                 <MDBCol>
                   <span>{category.name}</span>
