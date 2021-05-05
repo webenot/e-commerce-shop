@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { ForgotPasswordForm } from 'Components/form/ForgotPasswordForm';
+import { ForgotPasswordForm } from 'Components/forms/ForgotPasswordForm';
 import { AuthBaseTemplate } from 'Pages/auth/index';
 
 export const ForgotPassword = () => (

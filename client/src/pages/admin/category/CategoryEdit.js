@@ -3,7 +3,7 @@ import { MDBCol, MDBContainer, MDBRow } from 'mdbreact';
 import { toast } from 'react-toastify';
 
 import { AdminNav } from 'Components/nav/AdminNav';
-import { CategoryForm } from 'Components/form/CategoryForm';
+import { CategoryForm } from 'Components/forms/CategoryForm';
 import { getCategory } from 'Services/categoryService';
 
 export const CategoryEdit = ({ match }) => {

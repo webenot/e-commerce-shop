@@ -3,7 +3,7 @@ import { MDBRow, MDBContainer, MDBCol } from 'mdbreact';
 import { useSelector } from 'react-redux';
 
 import { UserNav } from 'Components/nav/UserNav';
-import { ChangePasswordForm } from 'Components/form/ChangePasswordForm';
+import { ChangePasswordForm } from 'Components/forms/ChangePasswordForm';
 import { AdminNav } from 'Components/nav/AdminNav';
 
 export const Password = () => {

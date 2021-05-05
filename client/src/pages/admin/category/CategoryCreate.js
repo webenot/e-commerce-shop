@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
 import { AdminNav } from 'Components/nav/AdminNav';
-import { CategoryForm } from 'Components/form/CategoryForm';
+import { CategoryForm } from 'Components/forms/CategoryForm';
 import { getCategories, removeCategory } from 'Services/categoryService';
 
 export const CategoryCreate = () => {

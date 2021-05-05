@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import { LoginForm } from 'Components/form/LoginForm';
+import { LoginForm } from 'Components/forms/LoginForm';
 import { AuthBaseTemplate } from 'Pages/auth/index';
 
 export const Login = () => (
