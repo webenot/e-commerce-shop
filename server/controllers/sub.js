@@ -16,7 +16,7 @@ module.exports.create = async (req, res) => {
       name,
       slug: slugify(name),
       parent: category._id,
-    }).save().populate('Category');
+    }).save();
     res.status(201).json(newSub);
   } catch (e) {
     console.error(e);
@@ -27,7 +27,7 @@ module.exports.create = async (req, res) => {
 module.exports.read = async (req, res) => {
   try {
     const { slug } = req.params;
-    const subcategory = await Sub.findOne({ slug });
+    const subcategory = await Sub.findOne({ slug }).populate('parent');
     res.json(subcategory);
   } catch (e) {
     console.error(e);
@@ -54,7 +54,7 @@ module.exports.update = async (req, res) => {
         },
       },
       { new: true },
-    ).populate('Category');
+    );
     res.json(updated);
   } catch (e) {
     console.error(e);
@@ -75,7 +75,7 @@ module.exports.remove = async (req, res) => {
 
 module.exports.list = async (req, res) => {
   try {
-    const subcategories = await Sub.find().sort({ createdAt: -1 });
+    const subcategories = await Sub.find().sort({ createdAt: -1 }).populate('parent');
     res.json(subcategories);
   } catch (e) {
     console.error(e);

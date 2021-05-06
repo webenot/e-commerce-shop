@@ -1,6 +1,7 @@
 const slugify = require('slugify');
 
 const Category = require('models/category');
+const Sub = require('models/sub');
 
 module.exports.create = async (req, res) => {
   try {
@@ -52,6 +53,7 @@ module.exports.remove = async (req, res) => {
   try {
     const { slug } = req.params;
     const categoryDeleted = await Category.findOneAndDelete({ slug });
+    await Sub.deleteMany({ parent: categoryDeleted._id });
     res.json(categoryDeleted);
   } catch (e) {
     console.error(e);

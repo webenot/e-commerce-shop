@@ -4,7 +4,7 @@ import { SaveOutlined } from '@ant-design/icons';
 
 export const ChangePasswordForm = ({
   handleSubmit,
-  loading = false,
+  disable = false,
   password = '',
   password2 = '',
   setPassword,
@@ -23,7 +23,7 @@ export const ChangePasswordForm = ({
     <>
       <form onSubmit={handleSubmit}>
         <MDBInput
-          disabled={loading}
+          disabled={disable}
           label="New password"
           type="password"
           value={password}
@@ -32,7 +32,7 @@ export const ChangePasswordForm = ({
           required
         />
         <MDBInput
-          disabled={loading}
+          disabled={disable}
           label="New password confirmation"
           type="password"
           value={password2}
@@ -40,7 +40,7 @@ export const ChangePasswordForm = ({
           required
         />
         <MDBBtn
-          disabled={password.length < 6 || password2.length < 6 || loading}
+          disabled={password.length < 6 || password2.length < 6 || disable}
           color="primary"
           className="btn-rounded btn-block"
           type="submit"

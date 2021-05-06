@@ -57,7 +57,7 @@ export const Password = () => {
           <h4 className={classnames({ 'text-danger': loading })}>{title}</h4>
           <ChangePasswordForm
             handleSubmit={handleSubmit}
-            loading={loading}
+            disable={loading}
             password={password}
             password2={password2}
             setPassword={setPassword}

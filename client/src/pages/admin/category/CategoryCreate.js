@@ -8,7 +8,7 @@ import classnames from 'classnames';
 import { AdminNav } from 'Components/nav/AdminNav';
 import { CategoryForm } from 'Components/forms/CategoryForm';
 import { LocalSearch } from 'Components/forms/LocalSearch';
-import { createCategory, getCategories, removeCategory } from 'Services/categoryService';
+import { createCategory, removeCategory, loadCategories } from 'Services/categoryService';
 import { CREATE_CATEGORY_TITLE, CREATE_CATEGORY_TITLE_LOADING } from 'App/config';
 
 export const CategoryCreate = () => {
@@ -25,33 +25,17 @@ export const CategoryCreate = () => {
     setTitle(saving ? CREATE_CATEGORY_TITLE_LOADING : CREATE_CATEGORY_TITLE);
   }, [ saving ]);
 
-  const loadCategories = useCallback(() => {
-    setLoading(true);
-    getCategories()
-      .then(response => {
-        setCategories(response.data);
-      })
-      .catch(error => {
-        if (error.response && error.response.status === 500) {
-          toast.error(error.response.data);
-        } else {
-          toast.error(error.message);
-        }
-      })
-      .finally(() => setLoading(false));
-  }, []);
-
   useEffect(() => {
-    loadCategories();
+    loadCategories(setLoading, setCategories);
   }, []);
 
   const handleDeleteCategory = useCallback(slug => async () => {
-    if (!window.confirm('Do you really want to delete this category?')) return false;
+    if (!window.confirm('Do you really want to delete this category with all subcategories?')) return false;
     setLoading(true);
     try {
       const result = await removeCategory(slug, user.token);
       toast.error(`Category "${result.data.name}" deleted successfully`);
-      loadCategories();
+      loadCategories(setLoading, setCategories);
     } catch (e) {
       if (e.response && e.response.status === 500) {
         toast.error(e.response.data);
@@ -69,7 +53,7 @@ export const CategoryCreate = () => {
       const result = await createCategory({ name }, user.token);
       toast.success(`Category "${result.data.name}" created successfully`);
       setName('');
-      loadCategories();
+      loadCategories(setLoading, setCategories);
     } catch (e) {
       console.error(e);
       if (e.response && e.response.status === 500) {
@@ -82,8 +66,8 @@ export const CategoryCreate = () => {
     return false;
   }, [ name ]);
 
-  const searchFilter = keyword => category =>
-    category.name.toLowerCase().includes(keyword.toLowerCase());
+  const searchFilter = useCallback(keyword => category =>
+    category.name.toLowerCase().includes(keyword.toLowerCase()), [ keyword ]);
 
   return (
     <MDBContainer fluid>
@@ -99,7 +83,7 @@ export const CategoryCreate = () => {
                 <CategoryForm
                   handleSubmit={handleSubmit}
                   name={name}
-                  loading={saving}
+                  disable={saving}
                   setName={setName}
                 />
               </MDBCol>

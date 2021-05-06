@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getCategories = () =>
   axios.get(`${process.env.REACT_APP_API_BASE_LINK}/categories`);
@@ -25,3 +26,19 @@ export const updateCategory = (slug, category, authtoken) =>
     category,
     { headers: { authtoken } },
   );
+
+export const loadCategories = (setLoading, setCategories) => {
+  setLoading(true);
+  getCategories()
+    .then(response => {
+      setCategories(response.data);
+    })
+    .catch(error => {
+      if (error.response && error.response.status === 500) {
+        toast.error(error.response.data);
+      } else {
+        toast.error(error.message);
+      }
+    })
+    .finally(() => setLoading(false));
+};

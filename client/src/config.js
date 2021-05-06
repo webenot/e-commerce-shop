@@ -12,3 +12,7 @@ export const CREATE_CATEGORY_TITLE = 'Create Category';
 export const CREATE_CATEGORY_TITLE_LOADING = 'Saving new category...';
 export const EDIT_CATEGORY_TITLE = 'Edit Category';
 export const EDIT_CATEGORY_TITLE_LOADING = 'Saving category...';
+export const EDIT_SUBCATEGORY_TITLE = 'Edit Subcategory';
+export const EDIT_SUBCATEGORY_TITLE_LOADING = 'Saving subcategory...';
+export const CREATE_SUBCATEGORY_TITLE = 'Create Subcategory';
+export const CREATE_SUBCATEGORY_TITLE_LOADING = 'Saving new subcategory...';

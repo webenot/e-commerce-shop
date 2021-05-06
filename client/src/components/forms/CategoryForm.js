@@ -5,7 +5,7 @@ import { SaveOutlined } from '@ant-design/icons';
 export const CategoryForm = ({
   handleSubmit,
   name = '',
-  loading = false,
+  disable = false,
   setName,
 }) => {
 
@@ -22,9 +22,10 @@ export const CategoryForm = ({
         onChange={handleNameChange}
         autoFocus
         required
+        disabled={disable}
       />
       <MDBBtn
-        disabled={name.length < 2 || loading}
+        disabled={name.length < 2 || disable}
         color="primary"
         className="btn-rounded"
         type="submit"

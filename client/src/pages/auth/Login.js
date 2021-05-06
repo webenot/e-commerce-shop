@@ -49,7 +49,7 @@ export const Login = ({ history }) => {
       <h4 className={classnames({ 'text-danger': loading })}>{title}</h4>
       <LoginForm
         handleSubmit={handleSubmit}
-        loading={loading}
+        disable={loading}
         email={email}
         password={password}
         setEmail={setEmail}

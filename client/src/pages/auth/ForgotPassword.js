@@ -45,7 +45,7 @@ export const ForgotPassword = () => {
       <h4 className={classnames({ 'text-danger': loading })}>{title}</h4>
       <ForgotPasswordForm
         handleSubmit={handleSubmit}
-        loading={loading}
+        disable={loading}
         email={email}
         setEmail={setEmail}
       />

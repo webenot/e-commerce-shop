@@ -4,6 +4,7 @@ import { MDBInput } from 'mdbreact';
 export const LocalSearch = ({
   keyword = '',
   setKeyword,
+  label = 'Search category by name',
 }) => {
   const handleKeywordChange = useCallback(e => {
     setKeyword(e.target.value);
@@ -11,11 +12,13 @@ export const LocalSearch = ({
 
   return (
     <MDBInput
-      label="Search category by name"
+      label={label}
       type="search"
       value={keyword}
       onChange={handleKeywordChange}
       autoFocus
+      size="sm"
+      icon="search"
     />
   );
 };

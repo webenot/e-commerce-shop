@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 export const getSubs = () =>
   axios.get(`${process.env.REACT_APP_API_BASE_LINK}/subs`);
@@ -25,3 +26,19 @@ export const updateSub = (slug, sub, authtoken) =>
     sub,
     { headers: { authtoken } },
   );
+
+export const loadSubcategories = (setLoading, setSubcategories) => {
+  setLoading(true);
+  getSubs()
+    .then(response => {
+      setSubcategories(response.data);
+    })
+    .catch(error => {
+      if (error.response && error.response.status === 500) {
+        toast.error(error.response.data);
+      } else {
+        toast.error(error.message);
+      }
+    })
+    .finally(() => setLoading(false));
+};

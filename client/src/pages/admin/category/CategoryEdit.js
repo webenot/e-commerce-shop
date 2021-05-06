@@ -90,7 +90,7 @@ export const CategoryEdit = ({
                     <CategoryForm
                       handleSubmit={handleSubmit}
                       name={name}
-                      loading={saving}
+                      disable={saving}
                       setName={setName}
                     />
                   </>
