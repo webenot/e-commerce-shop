@@ -31,9 +31,6 @@ export const SubcategoryCreate = () => {
 
   useEffect(() => {
     loadCategories(setLoadingCategories, setCategories);
-  }, []);
-
-  useEffect(() => {
     loadSubcategories(setLoading, setSubcategories);
   }, []);
 
@@ -113,12 +110,11 @@ export const SubcategoryCreate = () => {
                 />
               </MDBCol>
             </MDBRow>
-            {loading && (
+            {loading ? (
               <div className="spinner-border text-primary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
-            )}
-            {subcategories && subcategories.length ? subcategories.filter(searchFilter(keyword)).map(sub => (
+            ) : (subcategories && subcategories.length ? subcategories.filter(searchFilter(keyword)).map(sub => (
               <MDBRow
                 key={`sub-${sub._id}`}
                 className="alert alert-secondary category-item"
@@ -138,7 +134,7 @@ export const SubcategoryCreate = () => {
                   ><i className="far fa-edit" /></Link>
                 </MDBCol>
               </MDBRow>
-            )) : ''}
+            )) : '')}
           </MDBContainer>
         </MDBCol>
       </MDBRow>

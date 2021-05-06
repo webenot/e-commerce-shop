@@ -97,12 +97,11 @@ export const CategoryCreate = () => {
                 />
               </MDBCol>
             </MDBRow>
-            {loading && (
+            {loading ? (
               <div className="spinner-border text-primary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
-            )}
-            {categories && categories.length ? categories.filter(searchFilter(keyword)).map(category => (
+            ) : (categories && categories.length ? categories.filter(searchFilter(keyword)).map(category => (
               <MDBRow
                 key={`category-${category._id}`}
                 className="alert alert-secondary category-item"
@@ -122,7 +121,7 @@ export const CategoryCreate = () => {
                   ><i className="far fa-edit" /></Link>
                 </MDBCol>
               </MDBRow>
-            )) : ''}
+            )) : '')}
           </MDBContainer>
         </MDBCol>
       </MDBRow>

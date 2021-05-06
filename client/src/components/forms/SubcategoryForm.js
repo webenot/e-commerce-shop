@@ -23,15 +23,6 @@ export const SubcategoryForm = ({
 
   return (
     <form onSubmit={handleSubmit}>
-      <MDBInput
-        label="Subcategory name"
-        type="text"
-        value={name}
-        onChange={handleNameChange}
-        autoFocus
-        required
-        disabled={disable}
-      />
       <div className="mb-3">
         <label>Select parent category</label>
         <Select
@@ -53,6 +44,15 @@ export const SubcategoryForm = ({
           ))}
         </Select>
       </div>
+      <MDBInput
+        label="Subcategory name"
+        type="text"
+        value={name}
+        onChange={handleNameChange}
+        autoFocus
+        required
+        disabled={disable}
+      />
       <MDBBtn
         disabled={name.length < 2 || disable}
         color="primary"
