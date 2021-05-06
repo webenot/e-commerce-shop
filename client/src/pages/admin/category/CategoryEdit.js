@@ -4,10 +4,10 @@ import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import classnames from 'classnames';
 
-import { AdminNav } from 'Components/nav/AdminNav';
 import { CategoryForm } from 'Components/forms/CategoryForm';
 import { getCategory, updateCategory } from 'Services/categoryService';
 import { EDIT_CATEGORY_TITLE, EDIT_CATEGORY_TITLE_LOADING } from 'App/config';
+import { AdminBase } from 'Pages/admin/AdminBase';
 
 export const CategoryEdit = ({
   match,
@@ -71,35 +71,28 @@ export const CategoryEdit = ({
   }, [ name, category ]);
 
   return (
-    <MDBContainer fluid>
-      <MDBRow>
-        <MDBCol lg="2">
-          <AdminNav />
-        </MDBCol>
-        <MDBCol>
-          <MDBContainer>
-            <MDBRow>
-              <MDBCol lg="6">
-                {loading ? (
-                  <div className="spinner-border text-primary" role="status">
-                    <span className="sr-only">Loading...</span>
-                  </div>
-                ) : (
-                  <>
-                    <h4 className={classnames({ 'text-danger': saving })}>{title}</h4>
-                    <CategoryForm
-                      handleSubmit={handleSubmit}
-                      name={name}
-                      disable={saving}
-                      setName={setName}
-                    />
-                  </>
-                )}
-              </MDBCol>
-            </MDBRow>
-          </MDBContainer>
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+    <AdminBase>
+      <MDBContainer fluid>
+        <MDBRow>
+          <MDBCol lg="6">
+            {loading ? (
+              <div className="spinner-border text-primary" role="status">
+                <span className="sr-only">Loading...</span>
+              </div>
+            ) : (
+              <>
+                <h4 className={classnames({ 'text-danger': saving })}>{title}</h4>
+                <CategoryForm
+                  handleSubmit={handleSubmit}
+                  name={name}
+                  disable={saving}
+                  setName={setName}
+                />
+              </>
+            )}
+          </MDBCol>
+        </MDBRow>
+      </MDBContainer>
+    </AdminBase>
   );
 };

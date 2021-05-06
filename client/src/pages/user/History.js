@@ -1,18 +1,9 @@
 import React from 'react';
-import { MDBRow, MDBContainer, MDBCol } from 'mdbreact';
 
-import { UserNav } from 'Components/nav/UserNav';
+import { UserBase } from 'Pages/user/UserBase';
 
 export const History = () => (
-  <MDBContainer fluid>
-    <MDBRow>
-      <MDBCol lg="2">
-        <UserNav current="user/history" />
-      </MDBCol>
-
-      <MDBCol>
-        user page
-      </MDBCol>
-    </MDBRow>
-  </MDBContainer>
+  <UserBase>
+    user page
+  </UserBase>
 );

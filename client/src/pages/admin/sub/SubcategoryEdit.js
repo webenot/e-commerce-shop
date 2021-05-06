@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux';
 import classnames from 'classnames';
 import { toast } from 'react-toastify';
 
-import { AdminNav } from 'Components/nav/AdminNav';
 import { loadCategories } from 'Services/categoryService';
 import { getSub, updateSub } from 'Services/subcategoryService';
 import { EDIT_SUBCATEGORY_TITLE, EDIT_SUBCATEGORY_TITLE_LOADING } from 'App/config';
 import { SubcategoryForm } from 'Components/forms/SubcategoryForm';
+import { AdminBase } from 'Pages/admin/AdminBase';
 
 export const SubcategoryEdit = ({
   match,
@@ -92,24 +92,23 @@ export const SubcategoryEdit = ({
   }, [ name, subcategory, parent ]);
 
   return (
-    <MDBContainer fluid>
-      <MDBRow>
-        <MDBCol lg="2">
-          <AdminNav current="admin/sub" />
-        </MDBCol>
-        <MDBCol lg="6">
-          <h4 className={classnames({ 'text-danger': saving })}>{title}</h4>
-          <SubcategoryForm
-            handleSubmit={handleSubmit}
-            name={name}
-            disable={saving || loadingCategories || !parent || loading}
-            setName={setName}
-            categories={categories}
-            setCategory={setParent}
-            category={parent}
-          />
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+    <AdminBase>
+      <MDBContainer fluid>
+        <MDBRow>
+          <MDBCol lg="6">
+            <h4 className={classnames({ 'text-danger': saving })}>{title}</h4>
+            <SubcategoryForm
+              handleSubmit={handleSubmit}
+              name={name}
+              disable={saving || loadingCategories || !parent || loading}
+              setName={setName}
+              categories={categories}
+              setCategory={setParent}
+              category={parent}
+            />
+          </MDBCol>
+        </MDBRow>
+      </MDBContainer>
+    </AdminBase>
   );
 };

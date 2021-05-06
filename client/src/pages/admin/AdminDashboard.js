@@ -1,17 +1,7 @@
 import React from 'react';
-import { MDBRow, MDBContainer, MDBCol } from 'mdbreact';
 
-import { AdminNav } from 'Components/nav/AdminNav';
+import { AdminBase } from 'Pages/admin/AdminBase';
 
 export const AdminDashboard = () => (
-  <MDBContainer fluid>
-    <MDBRow>
-      <MDBCol lg="2">
-        <AdminNav current="admin/dashboard" />
-      </MDBCol>
-      <MDBCol>
-        admin dashboard
-      </MDBCol>
-    </MDBRow>
-  </MDBContainer>
+  <AdminBase>admin dashboard</AdminBase>
 );

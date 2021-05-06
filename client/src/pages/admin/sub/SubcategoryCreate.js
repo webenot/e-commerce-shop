@@ -5,12 +5,12 @@ import classnames from 'classnames';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
-import { AdminNav } from 'Components/nav/AdminNav';
 import { loadCategories } from 'Services/categoryService';
 import { loadSubcategories, createSub, removeSub } from 'Services/subcategoryService';
 import { LocalSearch } from 'Components/forms/LocalSearch';
 import { CREATE_SUBCATEGORY_TITLE, CREATE_SUBCATEGORY_TITLE_LOADING } from 'App/config';
 import { SubcategoryForm } from 'Components/forms/SubcategoryForm';
+import { AdminBase } from 'Pages/admin/AdminBase';
 
 export const SubcategoryCreate = () => {
   const [ categories, setCategories ] = useState([]);
@@ -79,65 +79,58 @@ export const SubcategoryCreate = () => {
   }, [ name, parent ]);
 
   return (
-    <MDBContainer fluid>
-      <MDBRow>
-        <MDBCol lg="2">
-          <AdminNav current="admin/sub" />
-        </MDBCol>
-        <MDBCol>
-          <MDBContainer>
-            <MDBRow>
-              <MDBCol lg="6">
-                <h4 className={classnames({ 'text-danger': saving })}>{title}</h4>
-                <SubcategoryForm
-                  handleSubmit={handleSubmit}
-                  name={name}
-                  disable={saving || loadingCategories || loading}
-                  setName={setName}
-                  categories={categories}
-                  setCategory={setParent}
-                  category={parent}
-                />
-              </MDBCol>
-            </MDBRow>
-            <hr />
-            <MDBRow>
-              <MDBCol lg="6">
-                <LocalSearch
-                  keyword={keyword}
-                  setKeyword={setKeyword}
-                  label="Search subcategory by name"
-                />
-              </MDBCol>
-            </MDBRow>
-            {loading ? (
-              <div className="spinner-border text-primary" role="status">
-                <span className="sr-only">Loading...</span>
-              </div>
-            ) : (subcategories && subcategories.length ? subcategories.filter(searchFilter(keyword)).map(sub => (
-              <MDBRow
-                key={`sub-${sub._id}`}
-                className="alert alert-secondary category-item"
+    <AdminBase>
+      <MDBContainer fluid>
+        <MDBRow>
+          <MDBCol lg="6">
+            <h4 className={classnames({ 'text-danger': saving })}>{title}</h4>
+            <SubcategoryForm
+              handleSubmit={handleSubmit}
+              name={name}
+              disable={saving || loadingCategories || loading}
+              setName={setName}
+              categories={categories}
+              setCategory={setParent}
+              category={parent}
+            />
+          </MDBCol>
+        </MDBRow>
+        <hr />
+        <MDBRow>
+          <MDBCol lg="6">
+            <LocalSearch
+              keyword={keyword}
+              setKeyword={setKeyword}
+              label="Search subcategory by name"
+            />
+          </MDBCol>
+        </MDBRow>
+        {loading ? (
+          <div className="spinner-border text-primary" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        ) : (subcategories && subcategories.length ? subcategories.filter(searchFilter(keyword)).map(sub => (
+          <MDBRow
+            key={`sub-${sub._id}`}
+            className="alert alert-secondary category-item"
+          >
+            <MDBCol>
+              <span>{sub.name} ({sub.parent.name})</span>
+              <button
+                type="button"
+                className="btn btn-danger btn-floating float-right"
+                onClick={handleDeleteSubcategory(sub.slug)}
               >
-                <MDBCol>
-                  <span>{sub.name} ({sub.parent.name})</span>
-                  <button
-                    type="button"
-                    className="btn btn-danger btn-floating float-right"
-                    onClick={handleDeleteSubcategory(sub.slug)}
-                  >
-                    <i className="far fa-trash-alt" />
-                  </button>
-                  <Link
-                    className="btn btn-primary btn-floating float-right"
-                    to={`/admin/sub/${sub.slug}`}
-                  ><i className="far fa-edit" /></Link>
-                </MDBCol>
-              </MDBRow>
-            )) : '')}
-          </MDBContainer>
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+                <i className="far fa-trash-alt" />
+              </button>
+              <Link
+                className="btn btn-primary btn-floating float-right"
+                to={`/admin/sub/${sub.slug}`}
+              ><i className="far fa-edit" /></Link>
+            </MDBCol>
+          </MDBRow>
+        )) : '')}
+      </MDBContainer>
+    </AdminBase>
   );
 };

@@ -43,7 +43,7 @@ export const Password = () => {
   }, [ password, password2 ]);
 
   return (
-    <MDBContainer fluid>
+    <MDBContainer fluid className="pt-3">
       <MDBRow>
         <MDBCol lg="2">
           {user && user.role === 'admin' && (

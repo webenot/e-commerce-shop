@@ -5,11 +5,11 @@ import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import classnames from 'classnames';
 
-import { AdminNav } from 'Components/nav/AdminNav';
 import { CategoryForm } from 'Components/forms/CategoryForm';
 import { LocalSearch } from 'Components/forms/LocalSearch';
 import { createCategory, removeCategory, loadCategories } from 'Services/categoryService';
 import { CREATE_CATEGORY_TITLE, CREATE_CATEGORY_TITLE_LOADING } from 'App/config';
+import { AdminBase } from 'Pages/admin/AdminBase';
 
 export const CategoryCreate = () => {
   const [ categories, setCategories ] = useState([]);
@@ -70,61 +70,54 @@ export const CategoryCreate = () => {
     category.name.toLowerCase().includes(keyword.toLowerCase()), [ keyword ]);
 
   return (
-    <MDBContainer fluid>
-      <MDBRow>
-        <MDBCol lg="2">
-          <AdminNav current="admin/category" />
-        </MDBCol>
-        <MDBCol>
-          <MDBContainer>
-            <MDBRow>
-              <MDBCol lg="6">
-                <h4 className={classnames({ 'text-danger': saving })}>{title}</h4>
-                <CategoryForm
-                  handleSubmit={handleSubmit}
-                  name={name}
-                  disable={saving}
-                  setName={setName}
-                />
-              </MDBCol>
-            </MDBRow>
-            <hr />
-            <MDBRow>
-              <MDBCol lg="6">
-                <LocalSearch
-                  keyword={keyword}
-                  setKeyword={setKeyword}
-                />
-              </MDBCol>
-            </MDBRow>
-            {loading ? (
-              <div className="spinner-border text-primary" role="status">
-                <span className="sr-only">Loading...</span>
-              </div>
-            ) : (categories && categories.length ? categories.filter(searchFilter(keyword)).map(category => (
-              <MDBRow
-                key={`category-${category._id}`}
-                className="alert alert-secondary category-item"
+    <AdminBase>
+      <MDBContainer fluid>
+        <MDBRow>
+          <MDBCol lg="6">
+            <h4 className={classnames({ 'text-danger': saving })}>{title}</h4>
+            <CategoryForm
+              handleSubmit={handleSubmit}
+              name={name}
+              disable={saving}
+              setName={setName}
+            />
+          </MDBCol>
+        </MDBRow>
+        <hr />
+        <MDBRow>
+          <MDBCol lg="6">
+            <LocalSearch
+              keyword={keyword}
+              setKeyword={setKeyword}
+            />
+          </MDBCol>
+        </MDBRow>
+        {loading ? (
+          <div className="spinner-border text-primary" role="status">
+            <span className="sr-only">Loading...</span>
+          </div>
+        ) : (categories && categories.length ? categories.filter(searchFilter(keyword)).map(category => (
+          <MDBRow
+            key={`category-${category._id}`}
+            className="alert alert-secondary category-item"
+          >
+            <MDBCol>
+              <span>{category.name}</span>
+              <button
+                type="button"
+                className="btn btn-danger btn-floating float-right"
+                onClick={handleDeleteCategory(category.slug)}
               >
-                <MDBCol>
-                  <span>{category.name}</span>
-                  <button
-                    type="button"
-                    className="btn btn-danger btn-floating float-right"
-                    onClick={handleDeleteCategory(category.slug)}
-                  >
-                    <i className="far fa-trash-alt" />
-                  </button>
-                  <Link
-                    className="btn btn-primary btn-floating float-right"
-                    to={`/admin/category/${category.slug}`}
-                  ><i className="far fa-edit" /></Link>
-                </MDBCol>
-              </MDBRow>
-            )) : '')}
-          </MDBContainer>
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+                <i className="far fa-trash-alt" />
+              </button>
+              <Link
+                className="btn btn-primary btn-floating float-right"
+                to={`/admin/category/${category.slug}`}
+              ><i className="far fa-edit" /></Link>
+            </MDBCol>
+          </MDBRow>
+        )) : '')}
+      </MDBContainer>
+    </AdminBase>
   );
 };
