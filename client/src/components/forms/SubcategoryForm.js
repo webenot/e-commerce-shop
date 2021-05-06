@@ -1,7 +1,8 @@
 import React, { useCallback } from 'react';
 import { MDBBtn, MDBInput } from 'mdbreact';
 import { SaveOutlined } from '@ant-design/icons';
-import { Select } from 'antd';
+
+import { SelectComponent } from 'Components/forms/components/SelectComponent';
 
 export const SubcategoryForm = ({
   handleSubmit,
@@ -23,27 +24,13 @@ export const SubcategoryForm = ({
 
   return (
     <form onSubmit={handleSubmit}>
-      <div className="mb-3">
-        <label>Select parent category</label>
-        <Select
-          showSearch
-          placeholder="Select parent category"
-          optionFilterProp="children"
-          onSelect={handleCategorySelect}
-          filterOption={(input, option) =>
-            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}
-          className="block"
-          value={category}
-          required
-        >
-          {categories && categories.length && categories.map(c => (
-            <Select.Option
-              key={`cat-option-${c._id}`}
-              value={c._id}
-            >{c.name}</Select.Option>
-          ))}
-        </Select>
-      </div>
+      <SelectComponent
+        onSelect={handleCategorySelect}
+        value={category}
+        disable={disable}
+        options={categories}
+        placeholder="Select parent category"
+      />
       <MDBInput
         label="Subcategory name"
         type="text"

@@ -3,6 +3,7 @@ const slugify = require('slugify');
 const Product = require('models/product');
 
 module.exports.create = async (req, res) => {
+  console.log(req.body);
   try {
     req.body.slug = slugify(req.body.title);
     const newProduct = await new Product(req.body).save();
