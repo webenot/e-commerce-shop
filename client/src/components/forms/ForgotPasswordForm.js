@@ -4,7 +4,7 @@ import { MailOutlined } from '@ant-design/icons';
 
 export const ForgotPasswordForm = ({
   handleSubmit,
-  loading = false,
+  disable = false,
   email = '',
   setEmail,
 }) => {
@@ -15,7 +15,7 @@ export const ForgotPasswordForm = ({
   return (
     <form onSubmit={handleSubmit}>
       <MDBInput
-        disabled={loading}
+        disabled={disable}
         label="Email"
         type="email"
         value={email}
@@ -24,7 +24,7 @@ export const ForgotPasswordForm = ({
         required
       />
       <MDBBtn
-        disabled={!email || email.indexOf('@') === -1 || email.indexOf('@') === email.length - 1 || loading}
+        disabled={!email || email.indexOf('@') === -1 || email.indexOf('@') === email.length - 1 || disable}
         color="primary"
         className="btn-rounded btn-block"
         type="submit"

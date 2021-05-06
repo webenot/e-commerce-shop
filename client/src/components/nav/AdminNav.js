@@ -20,7 +20,7 @@ export const AdminNav = ({ current = '' }) => (
         <MDBNavLink active={current === '/admin/category'} to="/admin/category">Category</MDBNavLink>
       </MDBNavItem>
       <MDBNavItem>
-        <MDBNavLink active={current === '/admin/sub'} to="/admin/sub">Sub Category</MDBNavLink>
+        <MDBNavLink active={current === '/admin/sub'} to="/admin/sub">Subcategory</MDBNavLink>
       </MDBNavItem>
       <MDBNavItem>
         <MDBNavLink active={current === '/admin/coupon'} to="/admin/coupon">Coupon</MDBNavLink>

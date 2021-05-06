@@ -46,7 +46,7 @@ export const Register = () => {
       <h4 className={classnames({ 'text-danger': loading })}>{title}</h4>
       <RegisterForm
         handleSubmit={handleSubmit}
-        loading={loading}
+        disable={loading}
         email={email}
         setEmail={setEmail}
       />

@@ -4,7 +4,7 @@ import { MailOutlined } from '@ant-design/icons';
 
 export const LoginForm = ({
   handleSubmit,
-  loading = false,
+  disable = false,
   email = '',
   password = '',
   setEmail,
@@ -21,7 +21,7 @@ export const LoginForm = ({
   return (
     <form onSubmit={handleSubmit}>
       <MDBInput
-        disabled={loading}
+        disabled={disable}
         label="Email"
         type="email"
         value={email}
@@ -30,7 +30,7 @@ export const LoginForm = ({
         required
       />
       <MDBInput
-        disabled={loading}
+        disabled={disable}
         label="Password"
         type="password"
         value={password}
@@ -38,7 +38,7 @@ export const LoginForm = ({
         required
       />
       <MDBBtn
-        disabled={!email || password.length < 6 || loading}
+        disabled={!email || password.length < 6 || disable}
         color="primary"
         className="btn-rounded btn-block"
         type="submit"

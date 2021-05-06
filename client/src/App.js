@@ -15,6 +15,8 @@ import { Wishlist } from 'Pages/user/Wishlist';
 import { AdminDashboard } from 'Pages/admin/AdminDashboard';
 import { CategoryCreate } from 'Pages/admin/category/CategoryCreate';
 import { CategoryEdit } from 'Pages/admin/category/CategoryEdit';
+import { SubcategoryCreate } from 'Pages/admin/sub/SubcategoryCreate';
+import { SubcategoryEdit } from 'Pages/admin/sub/SubcategoryEdit';
 import { Header } from 'Components/nav/Header';
 import { auth } from 'App/firebase';
 import { LOGGED_IN_USER } from 'Reducers/userReducer';
@@ -87,6 +89,8 @@ export const App = () => {
         <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
         <AdminRoute exact path="/admin/category" component={CategoryCreate} />
         <AdminRoute exact path="/admin/category/:slug" component={CategoryEdit} />
+        <AdminRoute exact path="/admin/sub" component={SubcategoryCreate} />
+        <AdminRoute exact path="/admin/sub/:slug" component={SubcategoryEdit} />
       </Switch>
       <ToastContainer
         position="bottom-right"

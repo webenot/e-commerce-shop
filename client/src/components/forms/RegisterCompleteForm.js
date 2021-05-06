@@ -5,7 +5,7 @@ import { UserAddOutlined } from '@ant-design/icons';
 
 export const RegisterCompleteForm = ({
   handleSubmit,
-  loading = false,
+  disable = false,
   email = '',
   password = '',
   password2 = '',
@@ -30,7 +30,7 @@ export const RegisterCompleteForm = ({
         required
       />
       <MDBInput
-        disabled={loading}
+        disabled={disable}
         label="Password"
         type="password"
         value={password}
@@ -39,7 +39,7 @@ export const RegisterCompleteForm = ({
         required
       />
       <MDBInput
-        disabled={loading}
+        disabled={disable}
         label="Password confirmation"
         type="password"
         value={password2}
@@ -47,7 +47,7 @@ export const RegisterCompleteForm = ({
         required
       />
       <MDBBtn
-        disabled={!email || password.length < 6 || password2.length < 6 || loading}
+        disabled={!email || password.length < 6 || password2.length < 6 || disable}
         color="primary"
         className="btn-rounded btn-block"
         type="submit"

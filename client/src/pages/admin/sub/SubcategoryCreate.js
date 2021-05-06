@@ -1,41 +1,49 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MDBCol, MDBContainer, MDBRow } from 'mdbreact';
-import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import classnames from 'classnames';
+import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 import { AdminNav } from 'Components/nav/AdminNav';
-import { CategoryForm } from 'Components/forms/CategoryForm';
+import { loadCategories } from 'Services/categoryService';
+import { loadSubcategories, createSub, removeSub } from 'Services/subcategoryService';
 import { LocalSearch } from 'Components/forms/LocalSearch';
-import { createCategory, removeCategory, loadCategories } from 'Services/categoryService';
-import { CREATE_CATEGORY_TITLE, CREATE_CATEGORY_TITLE_LOADING } from 'App/config';
+import { CREATE_SUBCATEGORY_TITLE, CREATE_SUBCATEGORY_TITLE_LOADING } from 'App/config';
+import { SubcategoryForm } from 'Components/forms/SubcategoryForm';
 
-export const CategoryCreate = () => {
+export const SubcategoryCreate = () => {
   const [ categories, setCategories ] = useState([]);
-  const [ loading, setLoading ] = useState(true);
+  const [ subcategories, setSubcategories ] = useState([]);
+  const [ loadingCategories, setLoadingCategories ] = useState(false);
   const [ saving, setSaving ] = useState(false);
-  const [ title, setTitle ] = useState('');
+  const [ loading, setLoading ] = useState(false);
   const [ name, setName ] = useState('');
+  const [ parent, setParent ] = useState('');
+  const [ title, setTitle ] = useState('');
   const [ keyword, setKeyword ] = useState('');
 
   const { user } = useSelector(state => state);
 
   useEffect(() => {
-    setTitle(saving ? CREATE_CATEGORY_TITLE_LOADING : CREATE_CATEGORY_TITLE);
+    setTitle(saving ? CREATE_SUBCATEGORY_TITLE_LOADING : CREATE_SUBCATEGORY_TITLE);
   }, [ saving ]);
 
   useEffect(() => {
-    loadCategories(setLoading, setCategories);
+    loadCategories(setLoadingCategories, setCategories);
+    loadSubcategories(setLoading, setSubcategories);
   }, []);
 
-  const handleDeleteCategory = useCallback(slug => async () => {
-    if (!window.confirm('Do you really want to delete this category with all subcategories?')) return false;
+  const searchFilter = useCallback(keyword => sub =>
+    sub.name.toLowerCase().includes(keyword.toLowerCase()), [ keyword ]);
+
+  const handleDeleteSubcategory = useCallback(slug => async () => {
+    if (!window.confirm('Do you really want to delete this category?')) return false;
     setLoading(true);
     try {
-      const result = await removeCategory(slug, user.token);
-      toast.error(`Category "${result.data.name}" deleted successfully`);
-      loadCategories(setLoading, setCategories);
+      const result = await removeSub(slug, user.token);
+      toast.error(`Subcategory "${result.data.name}" deleted successfully`);
+      loadSubcategories(setLoading, setSubcategories);
     } catch (e) {
       if (e.response && e.response.status === 500) {
         toast.error(e.response.data);
@@ -50,13 +58,17 @@ export const CategoryCreate = () => {
     e.preventDefault();
     setSaving(true);
     try {
-      const result = await createCategory({ name }, user.token);
-      toast.success(`Category "${result.data.name}" created successfully`);
+      const result = await createSub({
+        name,
+        parent,
+      }, user.token);
+      toast.success(`Subcategory "${result.data.name}" created successfully`);
       setName('');
-      loadCategories(setLoading, setCategories);
+      setParent('');
+      loadSubcategories(setLoading, setSubcategories);
     } catch (e) {
       console.error(e);
-      if (e.response && e.response.status === 500) {
+      if (e.response && (e.response.status === 500 || e.response.status === 404)) {
         toast.error(e.response.data);
       } else {
         toast.error(e.message);
@@ -64,27 +76,27 @@ export const CategoryCreate = () => {
     }
     setSaving(false);
     return false;
-  }, [ name ]);
-
-  const searchFilter = useCallback(keyword => category =>
-    category.name.toLowerCase().includes(keyword.toLowerCase()), [ keyword ]);
+  }, [ name, parent ]);
 
   return (
     <MDBContainer fluid>
       <MDBRow>
         <MDBCol lg="2">
-          <AdminNav current="admin/category" />
+          <AdminNav current="admin/sub" />
         </MDBCol>
         <MDBCol>
           <MDBContainer>
             <MDBRow>
               <MDBCol lg="6">
                 <h4 className={classnames({ 'text-danger': saving })}>{title}</h4>
-                <CategoryForm
+                <SubcategoryForm
                   handleSubmit={handleSubmit}
                   name={name}
-                  disable={saving}
+                  disable={saving || loadingCategories || loading}
                   setName={setName}
+                  categories={categories}
+                  setCategory={setParent}
+                  category={parent}
                 />
               </MDBCol>
             </MDBRow>
@@ -94,6 +106,7 @@ export const CategoryCreate = () => {
                 <LocalSearch
                   keyword={keyword}
                   setKeyword={setKeyword}
+                  label="Search subcategory by name"
                 />
               </MDBCol>
             </MDBRow>
@@ -101,23 +114,23 @@ export const CategoryCreate = () => {
               <div className="spinner-border text-primary" role="status">
                 <span className="sr-only">Loading...</span>
               </div>
-            ) : (categories && categories.length ? categories.filter(searchFilter(keyword)).map(category => (
+            ) : (subcategories && subcategories.length ? subcategories.filter(searchFilter(keyword)).map(sub => (
               <MDBRow
-                key={`category-${category._id}`}
+                key={`sub-${sub._id}`}
                 className="alert alert-secondary category-item"
               >
                 <MDBCol>
-                  <span>{category.name}</span>
+                  <span>{sub.name} ({sub.parent.name})</span>
                   <button
                     type="button"
                     className="btn btn-danger btn-floating float-right"
-                    onClick={handleDeleteCategory(category.slug)}
+                    onClick={handleDeleteSubcategory(sub.slug)}
                   >
                     <i className="far fa-trash-alt" />
                   </button>
                   <Link
                     className="btn btn-primary btn-floating float-right"
-                    to={`/admin/category/${category.slug}`}
+                    to={`/admin/sub/${sub.slug}`}
                   ><i className="far fa-edit" /></Link>
                 </MDBCol>
               </MDBRow>
