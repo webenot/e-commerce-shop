@@ -92,7 +92,7 @@ export const SubcategoryCreate = () => {
                 <SubcategoryForm
                   handleSubmit={handleSubmit}
                   name={name}
-                  disable={saving || loadingCategories}
+                  disable={saving || loadingCategories || loading}
                   setName={setName}
                   categories={categories}
                   setCategory={setParent}
